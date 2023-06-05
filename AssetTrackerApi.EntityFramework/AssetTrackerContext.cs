@@ -10,6 +10,7 @@ public class AssetTrackerContext: DbContext
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Resource> Resources { get; set; }
     public DbSet<UserResource> UserResources { get; set; }
+    public DbSet<UserOrganisation> UserOrganisations { get; set; }
 
         
     public AssetTrackerContext(DbContextOptions<AssetTrackerContext> options)
@@ -32,5 +33,18 @@ public class AssetTrackerContext: DbContext
             .HasOne(ur => ur.Resource)
             .WithMany(r => r.UserResources)
             .HasForeignKey(ur => ur.ResourceId);
+
+        modelBuilder.Entity<UserOrganisation>()
+            .HasKey(uo => new { uo.UserId, uo.OrganisationId });
+
+        modelBuilder.Entity<UserOrganisation>()
+            .HasOne(uo => uo.User)
+            .WithMany(u => u.UserOrganisations)
+            .HasForeignKey(uo => uo.UserId);
+
+        modelBuilder.Entity<UserOrganisation>()
+            .HasOne(uo => uo.Organisation)
+            .WithMany(o => o.UserOrganisations)
+            .HasForeignKey(uo => uo.OrganisationId);
     }
 }
