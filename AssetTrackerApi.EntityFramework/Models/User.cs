@@ -1,15 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace AssetTrackerApi.EntityFramework.Models;
 
-public class User
+public class User : IdentityUser
 {
     [Key]
     public int UserId { get; set; }
 
     [Required]
     [MaxLength(100)]
-    public string Name { get; set; }
+    public string UserName { get; set; }
 
     [Required]
     [MaxLength(100)]
@@ -19,11 +21,18 @@ public class User
     [Required]
     [MaxLength(100)]
     [DataType(DataType.Password)]
-    public string Password { get; set; }
+    public string PasswordHash { get; set; }
 
-    public int OrganisationId { get; set; }
-    public Organisation Organisation { get; set; }
+    [Required]
+    [MaxLength(128)]
+    public string Salt { get; set; }
+
+    public bool IsAdmin { get; set; }
+
+    public DateTime SignUpDate { get; set; }
+    public DateTime LastLogin { get; set; }
 
     public Wallet Wallet { get; set; }
+    public ICollection<UserOrganisation> UserOrganisations { get; set; }
     public ICollection<UserResource> UserResources { get; set; }
 }

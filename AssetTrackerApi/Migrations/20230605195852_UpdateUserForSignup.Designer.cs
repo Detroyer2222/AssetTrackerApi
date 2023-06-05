@@ -4,6 +4,7 @@ using AssetTrackerApi.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetTrackerApi.Migrations
 {
     [DbContext(typeof(AssetTrackerContext))]
-    partial class AssetTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20230605195852_UpdateUserForSignup")]
+    partial class UpdateUserForSignup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,9 +90,6 @@ namespace AssetTrackerApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("LastLogin")
                         .HasColumnType("datetime2");
 
@@ -104,6 +104,9 @@ namespace AssetTrackerApi.Migrations
 
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrganisationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -137,25 +140,9 @@ namespace AssetTrackerApi.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserOrganisation", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrganisationId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
-                    b.HasKey("UserId", "OrganisationId");
-
                     b.HasIndex("OrganisationId");
 
-                    b.ToTable("UserOrganisations");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserResource", b =>
@@ -201,23 +188,15 @@ namespace AssetTrackerApi.Migrations
                     b.ToTable("Wallets");
                 });
 
-            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserOrganisation", b =>
+            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.User", b =>
                 {
                     b.HasOne("AssetTrackerApi.EntityFramework.Models.Organisation", "Organisation")
-                        .WithMany("UserOrganisations")
+                        .WithMany("Users")
                         .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AssetTrackerApi.EntityFramework.Models.User", "User")
-                        .WithMany("UserOrganisations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Organisation");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserResource", b =>
@@ -252,7 +231,7 @@ namespace AssetTrackerApi.Migrations
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Organisation", b =>
                 {
-                    b.Navigation("UserOrganisations");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Resource", b =>
@@ -262,8 +241,6 @@ namespace AssetTrackerApi.Migrations
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.User", b =>
                 {
-                    b.Navigation("UserOrganisations");
-
                     b.Navigation("UserResources");
 
                     b.Navigation("Wallet")

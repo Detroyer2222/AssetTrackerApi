@@ -4,6 +4,7 @@ using AssetTrackerApi.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetTrackerApi.Migrations
 {
     [DbContext(typeof(AssetTrackerContext))]
-    partial class AssetTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20230605202240_Updated Models to reflect the Many to Many relation of user and organisation")]
+    partial class UpdatedModelstoreflecttheManytoManyrelationofuserandorganisation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

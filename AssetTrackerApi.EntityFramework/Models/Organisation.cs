@@ -11,5 +11,6 @@ public class Organisation
     [MaxLength(100)]
     public string Name { get; set; }
 
-    public ICollection<User> Users { get; set; }
+    public ICollection<UserOrganisation> UserOrganisations { get; set; }
+
 }
