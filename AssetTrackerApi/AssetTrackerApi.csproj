@@ -34,8 +34,4 @@
     <ProjectReference Include="..\AssetTrackerApi.EntityFramework\AssetTrackerApi.EntityFramework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Endpoints\User\Login\" />
-  </ItemGroup>
-
 </Project>

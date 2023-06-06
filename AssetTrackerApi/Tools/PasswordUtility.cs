@@ -24,7 +24,7 @@ namespace AssetTrackerApi.Tools
         {
             // Hash the provided password with the stored salt
             var pbkdf2 = new Rfc2898DeriveBytes(providedPassword, System.Text.Encoding.UTF8.GetBytes(storedSalt), 10000, HashAlgorithmName.SHA512);
-            byte[] hashedPassword = pbkdf2.GetBytes(20);  // 20-byte hash
+            byte[] hashedPassword = pbkdf2.GetBytes(64);  // 64-byte hash
 
             // Convert the hashed password to a Base64 string
             string hashedPasswordString = Convert.ToBase64String(hashedPassword);

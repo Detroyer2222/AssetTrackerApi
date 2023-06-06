@@ -15,9 +15,10 @@ namespace User.Signup
 
         public override void Configure()
         {
-            Post("/author/signup");
+            Post("/user/signup");
             Description(b => b
                 .WithGroupName("User"));
+            AllowAnonymous();
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)
@@ -26,7 +27,7 @@ namespace User.Signup
 
             bool userExists = await _userRepository.UserExistsAsync(r.Email);
 
-            if (!userExists)
+            if (userExists)
             {
                 AddError(r => r.Email, "Sorry! E-mail is already in use");
             }

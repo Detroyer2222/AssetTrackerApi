@@ -15,4 +15,10 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
         var result = await _context.Users.AnyAsync(u => u.Email == email);
         return result;
     }
+
+    public async Task<User?> GetUserByEmailorUserNameAsync(string emailOrUserName)
+    {
+        User? result = await _context.Users.FirstOrDefaultAsync(u => u.Email == emailOrUserName || u.UserName == emailOrUserName);
+        return result;
+    }
 }

@@ -2,13 +2,13 @@ using AssetTrackerApi.Endpoints.PostProcessor;
 using AssetTrackerApi.EntityFramework;
 using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using AssetTrackerApi.EntityFramework.Repositories;
+using AssetTrackerApi.Tools;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,12 +39,12 @@ KeyVaultSecret connString = secretClient.GetSecret("AssetTrackerSQLConnectionStr
 
 // Configure Authentication
 // TODO: Add AuthTokenString to KeyVault
-builder.Services.AddJWTBearerAuth("TokenString");
+builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
 
 builder.Services.AddAuthorization(o =>
 {
-    o.AddPolicy("Admin", p => p.RequireClaim("Role", "Admin"));
-    o.AddPolicy("User", p => p.RequireClaim("Role", "User"));
+    o.AddPolicy("Admin", p => p.RequireRole("Role", "Admin"));
+    o.AddPolicy("User", p => p.RequireRole("Role", "User"));
 });
 
 
@@ -58,6 +58,10 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IUserResourceRepository, UserResourceRepository>();
+builder.Services.AddScoped<IUserOrganisationRepository, UserOrganisationRepository>();
+
+// Registering Tools
+builder.Services.AddScoped<TokenUtility, TokenUtility>();
 
 var app = builder.Build();
 
