@@ -30,7 +30,7 @@ builder.Services.SwaggerDocument(o =>
 });
 
 
-var keyVaultEndpoint = new Uri(builder.Configuration["VaultKey"]);
+var keyVaultEndpoint = new Uri(builder.Configuration["KeyVault"]);
 var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
 
 KeyVaultSecret insightsSecret = secretClient.GetSecret("ApplicationInsightsConnectionString");
