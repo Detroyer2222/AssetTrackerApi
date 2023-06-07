@@ -34,4 +34,9 @@
     <ProjectReference Include="..\AssetTrackerApi.EntityFramework\AssetTrackerApi.EntityFramework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Resources\" />
+    <Folder Include="Endpoints\Organisation\" />
+  </ItemGroup>
+
 </Project>

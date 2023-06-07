@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using FluentValidation.Results;
 
-namespace AssetTrackerApi.Endpoints.PostProcessor
+namespace AssetTrackerApi.Endpoints.PostProcessor.Global
 {
     public class ErrorLogger : IGlobalPostProcessor
     {

@@ -23,9 +23,11 @@ namespace AssetTrackerApi.Tools
             }
 
             bool isAdmin = false;
+            bool isOwner = false;
             if (organisation != null)
             {
                 isAdmin = await _userOrganisationRepository.IsUserAdminInOrganisationAsync(user.UserId, organisation.OrganisationId);
+                isOwner = await _userOrganisationRepository.IsUserOwnerInOrganisationAsync(user.UserId, organisation.OrganisationId);
             }
 
 
@@ -38,7 +40,7 @@ namespace AssetTrackerApi.Tools
                     {
                         u.Roles.Add("Admin");
                     }
-                    else
+                    else if (isOwner)
                     {
                         u.Roles.Add("User");
                     }

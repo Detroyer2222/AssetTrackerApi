@@ -21,4 +21,19 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
         User? result = await _context.Users.FirstOrDefaultAsync(u => u.Email == emailOrUserName || u.UserName == emailOrUserName);
         return result;
     }
+
+    public async Task<IEnumerable<User>> GetUsersInOrganisationAsync(int organisationId)
+    {
+        return await _context.UserOrganisations
+            .Where(uo => uo.OrganisationId == organisationId)
+            .Select(uo => uo.User)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<UserResource>> GetUserResourcesAsync(int userId)
+    {
+        return await _context.UserResources
+            .Where(ur => ur.UserId == userId)
+            .ToListAsync();
+    }
 }

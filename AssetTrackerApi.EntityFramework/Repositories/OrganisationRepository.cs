@@ -12,7 +12,7 @@ public class OrganisationRepository : AssetTrackerRepository<Organisation>, IOrg
 
     public async Task<Organisation> GetFirstOrganisationFromUserAsync(int userId)
     {
-        var result = await _context.UserOrganisations
+        Organisation? result = await _context.UserOrganisations
             .Where(uo => uo.UserId == userId)
             .Select(uo => uo.Organisation)
             .FirstOrDefaultAsync();
@@ -27,5 +27,27 @@ public class OrganisationRepository : AssetTrackerRepository<Organisation>, IOrg
             .ToListAsync();
 
         return result;
+    }
+    public async Task<IEnumerable<Wallet>> GetOrganisationWalletsAsync(int organisationId)
+    {
+        return await _context.Users
+            .Where(u => u.UserOrganisations.Any(uo => uo.OrganisationId == organisationId))
+            .Select(u => u.Wallet)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Resource>> GetOrganisationResourcesAsync(int organisationId)
+    {
+        return await _context.UserResources
+            .Where(ur => ur.User.UserOrganisations.Any(uo => uo.OrganisationId == organisationId))
+            .Select(ur => ur.Resource)
+            .ToListAsync();
+    }
+
+    public async Task<double> GetTotalResourceValueOfOrganisationAsync(int organisationId)
+    {
+        return await _context.UserResources
+            .Where(ur => ur.User.UserOrganisations.Any(uo => uo.OrganisationId == organisationId))
+            .SumAsync(ur => ur.Resource.PriceSell * ur.Quantity);
     }
 }

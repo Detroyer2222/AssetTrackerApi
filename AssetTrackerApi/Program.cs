@@ -1,4 +1,5 @@
 using AssetTrackerApi.Endpoints.PostProcessor;
+using AssetTrackerApi.Endpoints.PostProcessor.Global;
 using AssetTrackerApi.EntityFramework;
 using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using AssetTrackerApi.EntityFramework.Repositories;
@@ -43,6 +44,7 @@ builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeRep
 
 builder.Services.AddAuthorization(o =>
 {
+    o.AddPolicy("Owner", p => p.RequireRole("Role", "Owner"));
     o.AddPolicy("Admin", p => p.RequireRole("Role", "Admin"));
     o.AddPolicy("User", p => p.RequireRole("Role", "User"));
 });
