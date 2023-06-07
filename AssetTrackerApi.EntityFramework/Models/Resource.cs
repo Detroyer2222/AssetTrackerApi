@@ -12,7 +12,19 @@ public class Resource
     public string Name { get; set; }
 
     [Required]
-    public double Value { get; set; }
+    [MaxLength(4)]
+    public string Code { get; set; }
+
+    [MaxLength(100)]
+    public string Type { get; set; }
+
+    [Required]
+    public double PriceBuy { get; set; }
+
+    [Required]
+    public double PriceSell { get; set; }
 
     public ICollection<UserResource> UserResources { get; set; }
+
+    public DateTime LastUpdated { get; set; }
 }
