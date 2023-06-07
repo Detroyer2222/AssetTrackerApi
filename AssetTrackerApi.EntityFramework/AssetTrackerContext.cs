@@ -7,7 +7,6 @@ public class AssetTrackerContext: DbContext
 {
     public DbSet<Organisation> Organisations { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Resource> Resources { get; set; }
     public DbSet<UserResource> UserResources { get; set; }
     public DbSet<UserOrganisation> UserOrganisations { get; set; }

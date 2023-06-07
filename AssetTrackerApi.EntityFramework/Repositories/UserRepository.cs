@@ -10,6 +10,15 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
     {
     }
 
+    public override async Task<User> AddAsync(User entity)
+    {
+        // Add empty entities to user
+        entity.UserOrganisations = new List<UserOrganisation>();
+        entity.UserResources = new List<UserResource>();
+        
+        return await base.AddAsync(entity);
+    }
+
     public async Task<bool> UserExistsAsync(string email)
     {
         var result = await _context.Users.AnyAsync(u => u.Email == email);

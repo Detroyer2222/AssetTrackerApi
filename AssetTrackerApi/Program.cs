@@ -57,7 +57,6 @@ builder.Services.AddDbContext<AssetTrackerContext>(o => o.UseSqlServer(connStrin
 // Registering Repositories
 builder.Services.AddScoped<IOrganisationRepository, OrganisationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IUserResourceRepository, UserResourceRepository>();
 builder.Services.AddScoped<IUserOrganisationRepository, UserOrganisationRepository>();

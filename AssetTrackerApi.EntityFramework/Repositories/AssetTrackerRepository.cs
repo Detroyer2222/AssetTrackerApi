@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AssetTrackerApi.EntityFramework.Repositories;
 
-public class AssetTrackerRepository<T> : IAssetTrackerRepository<T> where T : class
+public abstract class AssetTrackerRepository<T> : IAssetTrackerRepository<T> where T : class
 {
     protected readonly AssetTrackerContext _context;
     private readonly DbSet<T> _dbSet;
@@ -24,7 +24,7 @@ public class AssetTrackerRepository<T> : IAssetTrackerRepository<T> where T : cl
         return await _dbSet.FindAsync(id);
     }
 
-    public async Task<T> AddAsync(T entity)
+    public virtual async Task<T> AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
         await SaveChangesAsync();

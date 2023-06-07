@@ -32,7 +32,7 @@ public class User : IdentityUser
     public DateTime SignUpDate { get; set; }
     public DateTime LastLogin { get; set; }
 
-    public Wallet Wallet { get; set; }
+    public long Balance { get; set; }
     public ICollection<UserOrganisation> UserOrganisations { get; set; }
     public ICollection<UserResource> UserResources { get; set; }
 }

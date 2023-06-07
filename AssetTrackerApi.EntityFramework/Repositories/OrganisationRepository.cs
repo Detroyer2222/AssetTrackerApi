@@ -28,12 +28,11 @@ public class OrganisationRepository : AssetTrackerRepository<Organisation>, IOrg
 
         return result;
     }
-    public async Task<IEnumerable<Wallet>> GetOrganisationWalletsAsync(int organisationId)
+    public async Task<long> GetOrganisationBalanceAsync(int organisationId)
     {
         return await _context.Users
             .Where(u => u.UserOrganisations.Any(uo => uo.OrganisationId == organisationId))
-            .Select(u => u.Wallet)
-            .ToListAsync();
+            .SumAsync(u => u.Balance);
     }
 
     public async Task<IEnumerable<Resource>> GetOrganisationResourcesAsync(int organisationId)
