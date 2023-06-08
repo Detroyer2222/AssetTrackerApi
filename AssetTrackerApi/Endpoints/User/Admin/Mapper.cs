@@ -1,7 +1,6 @@
-﻿using AssetTrackerApi.EntityFramework.Models;
-using FastEndpoints;
+﻿using FastEndpoints;
 
-namespace User.Admin
+namespace AssetTrackerApi.Endpoints.User.Admin
 {
     public class Mapper : Mapper<Request, Response, object>
     {

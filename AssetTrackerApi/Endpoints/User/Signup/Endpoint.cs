@@ -1,8 +1,9 @@
-﻿using AssetTrackerApi.EntityFramework.Repositories.Contracts;
+﻿using AssetTrackerApi.Endpoints.User.Signup.Commands;
+using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using AssetTrackerApi.Tools;
 using FastEndpoints;
 
-namespace User.Signup
+namespace AssetTrackerApi.Endpoints.User.Signup
 {
     public class Endpoint : Endpoint<Request, Response, Mapper>
     {
@@ -25,27 +26,15 @@ namespace User.Signup
         {
             var user = Map.ToEntity(r);
 
-            bool userExists = await _userRepository.UserExistsAsync(r.Email);
 
-            if (userExists)
+            var result = await new SignupUser
             {
-                AddError(r => r.Email, "Sorry! E-mail is already in use");
-            }
+                UserToSignup = user,
+                Password = r.Password
+            }.ExecuteAsync(c);
 
             ThrowIfAnyErrors();
-
-            var passwordSaltPair = PasswordUtility.HashPassword(r.Password);
-
-            user.PasswordHash = passwordSaltPair.Key;
-            user.Salt = passwordSaltPair.Value;
-
-            var result = await _userRepository.AddAsync(user);
-            if (result is null)
-            {
-                ThrowError("Sorry! Something went wrong while creating the user");
-            }
-
-            await SendAsync(new ()
+            await SendAsync(new()
             {
                 UserName = result.UserName,
                 Email = result.Email

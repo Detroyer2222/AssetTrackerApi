@@ -1,23 +1,8 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using AssetTrackerApi.EntityFramework.Models;
-using AssetTrackerApi.EntityFramework.Repositories.Contracts;
+﻿using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using FastEndpoints;
-using Microsoft.Identity.Client;
 
-namespace User.Admin
+namespace AssetTrackerApi.Endpoints.User.Admin.Commands
 {
-    public static class Data
-    {
-
-    }
-
-    public class UpdateOrganisationAcces : ICommand<Response>
-    {
-        public int UserId { get; set; }
-        public int OrganisationId { get; set; }
-        public bool IsAdmin { get; set; }
-    }
-
     public class UpdateUserOrganisationAccessHandler : CommandHandler<UpdateOrganisationAcces, Response>
     {
         private IUserOrganisationRepository _userOrganisationRepository;
@@ -33,7 +18,7 @@ namespace User.Admin
                 await _userOrganisationRepository.UpdateIsAdminAsync(command.UserId, command.OrganisationId,
                     command.IsAdmin);
 
-            return new Response{Success = result};
+            return new Response { Success = result };
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using FastEndpoints;
-using User.Admin;
+﻿using AssetTrackerApi.Endpoints.User.Admin.Commands;
+using FastEndpoints;
 
-namespace User.Admin
+namespace AssetTrackerApi.Endpoints.User.Admin
 {
     public class Endpoint : Endpoint<Request, Response, Mapper>
     {

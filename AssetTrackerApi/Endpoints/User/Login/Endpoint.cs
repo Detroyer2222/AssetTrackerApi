@@ -1,7 +1,7 @@
-﻿using AssetTrackerApi.Tools;
+﻿using AssetTrackerApi.Endpoints.User.Login.Commands;
 using FastEndpoints;
 
-namespace User.Login
+namespace AssetTrackerApi.Endpoints.User.Login
 {
     public class Endpoint : Endpoint<Request, Response, Mapper>
     {

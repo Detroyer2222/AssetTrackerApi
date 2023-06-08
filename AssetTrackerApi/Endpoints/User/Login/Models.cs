@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using FluentValidation;
 
-namespace User.Login
+namespace AssetTrackerApi.Endpoints.User.Login
 {
     public class Request
     {

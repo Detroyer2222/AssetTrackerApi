@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace User.Signup
+namespace AssetTrackerApi.Endpoints.User.Signup
 {
     public class Mapper : Mapper<Request, Response, object>
     {

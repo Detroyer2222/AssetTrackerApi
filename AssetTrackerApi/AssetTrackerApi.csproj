@@ -37,7 +37,6 @@
   <ItemGroup>
     <Folder Include="Endpoints\Resources\" />
     <Folder Include="Endpoints\Organisation\" />
-    <Folder Include="Endpoints\User\Admin\Events\" />
   </ItemGroup>
 
 </Project>
