@@ -4,30 +4,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AssetTrackerApi.EntityFramework.Repositories
 {
-    public class UserOrganisationRepository : AssetTrackerRepository<UserOrganisation>, IUserOrganisationRepository
+    public class UserOrganizationRepository : AssetTrackerRepository<UserOrganization>, IUserOrganisationRepository
     {
-        public UserOrganisationRepository(AssetTrackerContext context) : base(context) { }
+        public UserOrganizationRepository(AssetTrackerContext context) : base(context) { }
 
         public async Task<bool> IsUserAdminInOrganisationAsync(int userId, int organisationId)
         {
-            var result = await _context.UserOrganisations
-                .AnyAsync(uo => uo.UserId == userId && uo.OrganisationId == organisationId && uo.IsAdmin);
+            var result = await _context.UserOrganizations
+                .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsAdmin);
 
             return result;
         }
 
         public async Task<bool> IsUserOwnerInOrganisationAsync(int userId, int organisationId)
         {
-            var result = await _context.UserOrganisations
-                .AnyAsync(uo => uo.UserId == userId && uo.OrganisationId == organisationId && uo.IsOwner);
+            var result = await _context.UserOrganizations
+                .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsOwner);
 
             return result;
         }
 
         public async Task<bool> UpdateIsAdminAsync(int userId, int organisationId, bool isAdmin)
         {
-            var userOrganisation = await _context.UserOrganisations
-                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganisationId == organisationId);
+            var userOrganisation = await _context.UserOrganizations
+                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
 
             if (userOrganisation != null)
             {
@@ -41,8 +41,8 @@ namespace AssetTrackerApi.EntityFramework.Repositories
 
         public async Task<bool> UpdateIsOwnerAsync(int userId, int organisationId, bool isOwner)
         {
-            var userOrganisation = await _context.UserOrganisations
-                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganisationId == organisationId);
+            var userOrganisation = await _context.UserOrganizations
+                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
 
             if (userOrganisation != null)
             {

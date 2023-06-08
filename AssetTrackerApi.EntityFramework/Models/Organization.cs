@@ -2,15 +2,15 @@
 
 namespace AssetTrackerApi.EntityFramework.Models;
 
-public class Organisation
+public class Organization
 {
     [Key]
-    public int OrganisationId { get; set; }
+    public int OrganizationId { get; set; }
 
     [Required]
     [MaxLength(100)]
     public string Name { get; set; }
 
-    public ICollection<UserOrganisation> UserOrganisations { get; set; }
+    public ICollection<UserOrganization> UserOrganizations { get; set; }
 
 }

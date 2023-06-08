@@ -4,6 +4,7 @@ using AssetTrackerApi.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetTrackerApi.Migrations
 {
     [DbContext(typeof(AssetTrackerContext))]
-    partial class AssetTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20230608201611_Changed Organisation to Organization and all transitive names")]
+    partial class ChangedOrganisationtoOrganizationandalltransitivenames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,22 +25,22 @@ namespace AssetTrackerApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Organization", b =>
+            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Organisation", b =>
                 {
-                    b.Property<int>("OrganizationId")
+                    b.Property<int>("OrganisationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrganizationId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrganisationId"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("OrganizationId");
+                    b.HasKey("OrganisationId");
 
-                    b.ToTable("Organizations");
+                    b.ToTable("Organisations");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Resource", b =>
@@ -159,12 +162,12 @@ namespace AssetTrackerApi.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserOrganization", b =>
+            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserOrganisation", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrganizationId")
+                    b.Property<int>("OrganisationId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAdmin")
@@ -173,11 +176,11 @@ namespace AssetTrackerApi.Migrations
                     b.Property<bool>("IsOwner")
                         .HasColumnType("bit");
 
-                    b.HasKey("UserId", "OrganizationId");
+                    b.HasKey("UserId", "OrganisationId");
 
-                    b.HasIndex("OrganizationId");
+                    b.HasIndex("OrganisationId");
 
-                    b.ToTable("UserOrganizations");
+                    b.ToTable("UserOrganisations");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserResource", b =>
@@ -201,21 +204,21 @@ namespace AssetTrackerApi.Migrations
                     b.ToTable("UserResources");
                 });
 
-            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserOrganization", b =>
+            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserOrganisation", b =>
                 {
-                    b.HasOne("AssetTrackerApi.EntityFramework.Models.Organization", "Organization")
-                        .WithMany("UserOrganizations")
-                        .HasForeignKey("OrganizationId")
+                    b.HasOne("AssetTrackerApi.EntityFramework.Models.Organisation", "Organisation")
+                        .WithMany("UserOrganisations")
+                        .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AssetTrackerApi.EntityFramework.Models.User", "User")
-                        .WithMany("UserOrganizations")
+                        .WithMany("UserOrganisations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Organization");
+                    b.Navigation("Organisation");
 
                     b.Navigation("User");
                 });
@@ -239,9 +242,9 @@ namespace AssetTrackerApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Organization", b =>
+            modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Organisation", b =>
                 {
-                    b.Navigation("UserOrganizations");
+                    b.Navigation("UserOrganisations");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Resource", b =>
@@ -251,7 +254,7 @@ namespace AssetTrackerApi.Migrations
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.User", b =>
                 {
-                    b.Navigation("UserOrganizations");
+                    b.Navigation("UserOrganisations");
 
                     b.Navigation("UserResources");
                 });

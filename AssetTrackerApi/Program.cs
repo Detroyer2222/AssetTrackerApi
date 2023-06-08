@@ -55,11 +55,11 @@ builder.Services.AddApplicationInsightsTelemetry(telemetryOptions);
 builder.Services.AddDbContext<AssetTrackerContext>(o => o.UseSqlServer(connString.Value, b => b.MigrationsAssembly("AssetTrackerApi")));
 
 // Registering Repositories
-builder.Services.AddScoped<IOrganisationRepository, OrganisationRepository>();
+builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IUserResourceRepository, UserResourceRepository>();
-builder.Services.AddScoped<IUserOrganisationRepository, UserOrganisationRepository>();
+builder.Services.AddScoped<IUserOrganisationRepository, UserOrganizationRepository>();
 
 // Registering Tools
 builder.Services.AddScoped<TokenUtility, TokenUtility>();

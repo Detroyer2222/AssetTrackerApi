@@ -9,7 +9,7 @@ namespace AssetTrackerApi.Endpoints.User.Login.Commands
     {
         private IUserRepository _userRepository;
         private TokenUtility tokenUtility;
-        private IOrganisationRepository _organisationRepository;
+        private IOrganizationRepository _organisationRepository;
 
         public GetTokenHandler(IUserRepository userRepository, TokenUtility tokenUtility)
         {
@@ -20,7 +20,7 @@ namespace AssetTrackerApi.Endpoints.User.Login.Commands
         public override async Task<string> ExecuteAsync(GetToken command, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName);
-            Organisation organisation = null;
+            Organization organisation = null;
 
             if (command.OrganisationId != null)
             {

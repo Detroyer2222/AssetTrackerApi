@@ -7,27 +7,27 @@ namespace AssetTrackerApi.Tools
     public class TokenUtility
     {
         private IUserOrganisationRepository _userOrganisationRepository;
-        private IOrganisationRepository _organisationRepository;
+        private IOrganizationRepository _organisationRepository;
 
-        public TokenUtility(IUserOrganisationRepository userOrganisationRepository, IOrganisationRepository organisationRepository)
+        public TokenUtility(IUserOrganisationRepository userOrganisationRepository, IOrganizationRepository organisationRepository)
         {
             _userOrganisationRepository = userOrganisationRepository;
             _organisationRepository = organisationRepository;
         }
 
-        public async Task<string> CreateToken(EntityFramework.Models.User user, Organisation organisation = null)
+        public async Task<string> CreateToken(EntityFramework.Models.User user, Organization organisation = null)
         {
             if (organisation == null)
             {
-                organisation = await _organisationRepository.GetFirstOrganisationFromUserAsync(user.UserId);
+                organisation = await _organisationRepository.GetFirstOrganizationFromUserAsync(user.UserId);
             }
 
             bool isAdmin = false;
             bool isOwner = false;
             if (organisation != null)
             {
-                isAdmin = await _userOrganisationRepository.IsUserAdminInOrganisationAsync(user.UserId, organisation.OrganisationId);
-                isOwner = await _userOrganisationRepository.IsUserOwnerInOrganisationAsync(user.UserId, organisation.OrganisationId);
+                isAdmin = await _userOrganisationRepository.IsUserAdminInOrganisationAsync(user.UserId, organisation.OrganizationId);
+                isOwner = await _userOrganisationRepository.IsUserOwnerInOrganisationAsync(user.UserId, organisation.OrganizationId);
             }
 
 
@@ -49,7 +49,7 @@ namespace AssetTrackerApi.Tools
                     u.Claims.Add(new("UserId", user.UserId.ToString()));
                     if (organisation != null)
                     {
-                        u.Claims.Add(new("OrganisationId", organisation.OrganisationId.ToString()));
+                        u.Claims.Add(new("OrganisationId", organisation.OrganizationId.ToString()));
                     }
                     else
                     {

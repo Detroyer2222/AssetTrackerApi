@@ -33,6 +33,6 @@ public class User : IdentityUser
     public DateTime LastLogin { get; set; }
 
     public long Balance { get; set; }
-    public ICollection<UserOrganisation> UserOrganisations { get; set; }
+    public ICollection<UserOrganization> UserOrganizations { get; set; }
     public ICollection<UserResource> UserResources { get; set; }
 }

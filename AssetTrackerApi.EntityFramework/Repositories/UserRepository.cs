@@ -13,7 +13,7 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
     public override async Task<User> AddAsync(User entity)
     {
         // Add empty entities to user
-        entity.UserOrganisations = new List<UserOrganisation>();
+        entity.UserOrganizations = new List<UserOrganization>();
         entity.UserResources = new List<UserResource>();
         
         return await base.AddAsync(entity);
@@ -33,8 +33,8 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
 
     public async Task<IEnumerable<User>> GetUsersInOrganisationAsync(int organisationId)
     {
-        return await _context.UserOrganisations
-            .Where(uo => uo.OrganisationId == organisationId)
+        return await _context.UserOrganizations
+            .Where(uo => uo.OrganizationId == organisationId)
             .Select(uo => uo.User)
             .ToListAsync();
     }

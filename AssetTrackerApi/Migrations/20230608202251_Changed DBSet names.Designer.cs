@@ -4,6 +4,7 @@ using AssetTrackerApi.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetTrackerApi.Migrations
 {
     [DbContext(typeof(AssetTrackerContext))]
-    partial class AssetTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20230608202251_Changed DBSet names")]
+    partial class ChangedDBSetnames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace AssetTrackerApi.Migrations
 
                     b.HasKey("OrganizationId");
 
-                    b.ToTable("Organizations");
+                    b.ToTable("Organization");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.Resource", b =>
@@ -177,7 +180,7 @@ namespace AssetTrackerApi.Migrations
 
                     b.HasIndex("OrganizationId");
 
-                    b.ToTable("UserOrganizations");
+                    b.ToTable("UserOrganization");
                 });
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.UserResource", b =>
@@ -210,7 +213,7 @@ namespace AssetTrackerApi.Migrations
                         .IsRequired();
 
                     b.HasOne("AssetTrackerApi.EntityFramework.Models.User", "User")
-                        .WithMany("UserOrganizations")
+                        .WithMany("UserOrganisations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -251,7 +254,7 @@ namespace AssetTrackerApi.Migrations
 
             modelBuilder.Entity("AssetTrackerApi.EntityFramework.Models.User", b =>
                 {
-                    b.Navigation("UserOrganizations");
+                    b.Navigation("UserOrganisations");
 
                     b.Navigation("UserResources");
                 });

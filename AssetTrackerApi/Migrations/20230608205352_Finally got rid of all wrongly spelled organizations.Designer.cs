@@ -4,6 +4,7 @@ using AssetTrackerApi.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetTrackerApi.Migrations
 {
     [DbContext(typeof(AssetTrackerContext))]
-    partial class AssetTrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20230608205352_Finally got rid of all wrongly spelled organizations")]
+    partial class Finallygotridofallwronglyspelledorganizations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
