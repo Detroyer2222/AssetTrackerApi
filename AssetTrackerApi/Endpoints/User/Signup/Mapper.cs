@@ -1,6 +1,4 @@
-﻿using AssetTrackerApi.Tools;
-using FastEndpoints;
-using Microsoft.AspNetCore.Identity;
+﻿using FastEndpoints;
 
 namespace User.Signup
 {

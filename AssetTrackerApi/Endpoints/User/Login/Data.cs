@@ -9,7 +9,6 @@ namespace User.Login
     {
     }
 
-
     #region CreateToken
 
     public class GetToken : ICommand<string>

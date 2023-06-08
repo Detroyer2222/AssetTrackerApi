@@ -23,5 +23,35 @@ namespace AssetTrackerApi.EntityFramework.Repositories
 
             return result;
         }
+
+        public async Task<bool> UpdateIsAdminAsync(int userId, int organisationId, bool isAdmin)
+        {
+            var userOrganisation = await _context.UserOrganisations
+                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganisationId == organisationId);
+
+            if (userOrganisation != null)
+            {
+                userOrganisation.IsAdmin = isAdmin;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateIsOwnerAsync(int userId, int organisationId, bool isOwner)
+        {
+            var userOrganisation = await _context.UserOrganisations
+                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganisationId == organisationId);
+
+            if (userOrganisation != null)
+            {
+                userOrganisation.IsOwner = isOwner;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }
