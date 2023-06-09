@@ -1,8 +1,10 @@
 ﻿using AssetTrackerApi.Endpoints.Organization.ResourceSummary.Commands;
 using FastEndpoints;
+using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.Organization.ResourceSummary;
 
+[EnableCors]
 public class Endpoint : Endpoint<Request, Response, Mapper>
 {
     public override void Configure()

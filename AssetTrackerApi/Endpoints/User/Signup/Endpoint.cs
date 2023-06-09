@@ -1,9 +1,11 @@
 ﻿using AssetTrackerApi.Endpoints.User.Signup.Commands;
 using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using FastEndpoints;
+using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.User.Signup;
 
+[EnableCors]
 public class Endpoint : Endpoint<Request, Response, Mapper>
 {
     IUserRepository _userRepository;

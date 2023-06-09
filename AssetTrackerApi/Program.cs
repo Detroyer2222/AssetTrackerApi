@@ -36,7 +36,6 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .SetIsOriginAllowed(origin => true)
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -55,8 +54,6 @@ KeyVaultSecret connString = secretClient.GetSecret("AssetTrackerSQLConnectionStr
 
 // Configure Authentication
 
-// TODO: think about cookie auth when API is deployed and has SSL certificate
-//builder.Services.AddCookieAuth(validFor: TimeSpan.FromMinutes(10));
 // TODO: Add AuthTokenString to KeyVault
 builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
 

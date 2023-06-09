@@ -37,18 +37,6 @@ public class Endpoint : Endpoint<Request, Response>
             }.ExecuteAsync(c);
         }
 
-        // TODO: think about cookie auth when API is deployed and has SSL certificate
-        await CookieAuth.SignInAsync(u =>
-        {
-            u.Roles.Add("Admin");
-            u.Permissions.AddRange(new[] {"Create_Item", "Delete_Item"});
-            u.Claims.Add(new("UserId", "123"));
-
-            u["Email"] = "abcd@def.com";
-            u["Department"] = "IT";
-        });
-
-
         await SendAsync(new()
         {
             EmailorUserName = r.EmailorUserName,

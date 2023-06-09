@@ -1,8 +1,10 @@
 ﻿using FastEndpoints;
 using FastEndpoints.Security;
+using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.User.Refresh;
 
+[EnableCors]
 public class RefreshTokenService : RefreshTokenService<TokenRequest, TokenResponse>
 {
 
