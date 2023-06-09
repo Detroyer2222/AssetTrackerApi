@@ -7,7 +7,7 @@ public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
-        Post("user/login");
+        Post("/api/user/login");
         AllowAnonymous();
     }
 

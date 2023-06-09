@@ -15,7 +15,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
 
     public override void Configure()
     {
-        Post("/user/signup");
+        Post("/api/user/signup");
         Description(b => b
             .WithGroupName("User"));
         AllowAnonymous();
