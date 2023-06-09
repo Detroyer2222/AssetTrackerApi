@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.User.Login;
 
-[EnableCors]
+//[EnableCors]
 public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
@@ -38,15 +38,15 @@ public class Endpoint : Endpoint<Request, Response>
         }
 
         // TODO: think about cookie auth when API is deployed and has SSL certificate
-        //await CookieAuth.SignInAsync(u =>
-        //{
-        //    u.Roles.Add("Admin");
-        //    u.Permissions.AddRange(new[] {"Create_Item", "Delete_Item"});
-        //    u.Claims.Add(new("UserId", "123"));
+        await CookieAuth.SignInAsync(u =>
+        {
+            u.Roles.Add("Admin");
+            u.Permissions.AddRange(new[] {"Create_Item", "Delete_Item"});
+            u.Claims.Add(new("UserId", "123"));
 
-        //    u["Email"] = "abcd@def.com";
-        //    u["Department"] = "IT";
-        //});
+            u["Email"] = "abcd@def.com";
+            u["Department"] = "IT";
+        });
 
 
         await SendAsync(new()
