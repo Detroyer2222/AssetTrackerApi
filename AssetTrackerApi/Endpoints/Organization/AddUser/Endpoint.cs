@@ -7,7 +7,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
 {
     public override void Configure()
     {
-        Post("/organization/add-user");
+        Post("/api/organization/add-user");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

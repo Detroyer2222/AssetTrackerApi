@@ -14,7 +14,7 @@ public class RefreshTokenService : RefreshTokenService<TokenRequest, TokenRespon
             o.AccessTokenValidity = TimeSpan.FromMinutes(10);
             o.RefreshTokenValidity = TimeSpan.FromDays(6);
 
-            o.Endpoint("user/refresh-token", ep =>
+            o.Endpoint("/api/user/refresh-token", ep =>
             {
                 ep.Summary(s => s.Summary = "Endpoint refreshes the access token and creates new refresh token");
             });

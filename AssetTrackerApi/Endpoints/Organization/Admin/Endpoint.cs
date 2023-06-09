@@ -7,7 +7,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
 {
     public override void Configure()
     {
-        Post("/organization/admin");
+        Post("/api/organization/admin");
         Description(b => b
                    .WithGroupName("Organization")
                    .WithDescription("Update the admin status of a user for an organization"));
