@@ -10,6 +10,50 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
     {
     }
 
+    public async Task<Organization> CreateOrganizationWithOwnerAsync(string organizationName, int ownerId)
+    {
+        // Create the new organization
+        var organization = new Organization
+        {
+            Name = organizationName
+        };
+
+        await _context.Organizations.AddAsync(organization);
+
+        // Create a linking record in the UserOrganization table
+        var userOrganization = new UserOrganization
+        {
+            UserId = ownerId,
+            OrganizationId = organization.OrganizationId,
+            IsAdmin = true,
+            IsOwner = true
+        };
+
+        await _context.UserOrganizations.AddAsync(userOrganization);
+
+        // Save changes to the database
+        await _context.SaveChangesAsync();
+
+        return organization;
+    }
+
+    public async Task AddUserToOrganizationAsync(int userId, int organizationId, bool isAdmin)
+    {
+        // Create a linking record in the UserOrganization table
+        var userOrganization = new UserOrganization
+        {
+            UserId = userId,
+            OrganizationId = organizationId,
+            IsAdmin = isAdmin,
+            IsOwner = false
+        };
+
+        await _context.UserOrganizations.AddAsync(userOrganization);
+
+        // Save changes to the database
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<Organization> GetFirstOrganizationFromUserAsync(int userId)
     {
         Organization? result = await _context.UserOrganizations

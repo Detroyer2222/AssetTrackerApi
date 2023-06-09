@@ -3,35 +3,34 @@ using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using AssetTrackerApi.Tools;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Login.Commands
+namespace AssetTrackerApi.Endpoints.User.Login.Commands;
+
+public class GetTokenHandler : CommandHandler<GetToken, string>
 {
-    public class GetTokenHandler : CommandHandler<GetToken, string>
+    private IUserRepository _userRepository;
+    private TokenUtility tokenUtility;
+    private IOrganizationRepository _organizationRepository;
+
+    public GetTokenHandler(IUserRepository userRepository, TokenUtility tokenUtility)
     {
-        private IUserRepository _userRepository;
-        private TokenUtility tokenUtility;
-        private IOrganizationRepository _organisationRepository;
+        _userRepository = userRepository;
+        this.tokenUtility = tokenUtility;
+    }
 
-        public GetTokenHandler(IUserRepository userRepository, TokenUtility tokenUtility)
+    public override async Task<string> ExecuteAsync(GetToken command, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName);
+        EntityFramework.Models.Organization organisation = null;
+
+        if (command.OrganisationId != null)
         {
-            _userRepository = userRepository;
-            this.tokenUtility = tokenUtility;
+            organisation = await _organizationRepository.GetByIdAsync((int)command.OrganisationId);
         }
 
-        public override async Task<string> ExecuteAsync(GetToken command, CancellationToken cancellationToken)
-        {
-            var user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName);
-            Organization organisation = null;
+        ThrowIfAnyErrors();
 
-            if (command.OrganisationId != null)
-            {
-                organisation = await _organisationRepository.GetByIdAsync((int)command.OrganisationId);
-            }
+        var token = await tokenUtility.CreateToken(user, organisation);
 
-            ThrowIfAnyErrors();
-
-            var token = await tokenUtility.CreateToken(user, organisation);
-
-            return token;
-        }
+        return token;
     }
 }

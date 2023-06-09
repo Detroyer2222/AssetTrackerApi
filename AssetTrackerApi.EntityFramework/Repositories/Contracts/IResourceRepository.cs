@@ -1,5 +1,4 @@
 ﻿using AssetTrackerApi.EntityFramework.Models;
-using System.Threading.Tasks;
 
 namespace AssetTrackerApi.EntityFramework.Repositories.Contracts;
 

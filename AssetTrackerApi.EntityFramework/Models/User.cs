@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace AssetTrackerApi.EntityFramework.Models;
@@ -26,8 +25,6 @@ public class User : IdentityUser
     [Required]
     [MaxLength(128)]
     public string Salt { get; set; }
-
-    public bool IsAdmin { get; set; }
 
     public DateTime SignUpDate { get; set; }
     public DateTime LastLogin { get; set; }

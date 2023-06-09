@@ -2,56 +2,55 @@
 using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace AssetTrackerApi.EntityFramework.Repositories
+namespace AssetTrackerApi.EntityFramework.Repositories;
+
+public class UserOrganizationRepository : AssetTrackerRepository<UserOrganization>, IUserOrganisationRepository
 {
-    public class UserOrganizationRepository : AssetTrackerRepository<UserOrganization>, IUserOrganisationRepository
+    public UserOrganizationRepository(AssetTrackerContext context) : base(context) { }
+
+    public async Task<bool> IsUserAdminInOrganizationAsync(int userId, int organisationId)
     {
-        public UserOrganizationRepository(AssetTrackerContext context) : base(context) { }
+        var result = await _context.UserOrganizations
+            .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsAdmin);
 
-        public async Task<bool> IsUserAdminInOrganisationAsync(int userId, int organisationId)
+        return result;
+    }
+
+    public async Task<bool> IsUserOwnerInOrganizationAsync(int userId, int organisationId)
+    {
+        var result = await _context.UserOrganizations
+            .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsOwner);
+
+        return result;
+    }
+
+    public async Task<bool> UpdateIsAdminAsync(int userId, int organisationId, bool isAdmin)
+    {
+        var userOrganisation = await _context.UserOrganizations
+            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
+
+        if (userOrganisation != null)
         {
-            var result = await _context.UserOrganizations
-                .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsAdmin);
-
-            return result;
+            userOrganisation.IsAdmin = isAdmin;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<bool> IsUserOwnerInOrganisationAsync(int userId, int organisationId)
-        {
-            var result = await _context.UserOrganizations
-                .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsOwner);
+        return false;
+    }
 
-            return result;
+    public async Task<bool> UpdateIsOwnerAsync(int userId, int organisationId, bool isOwner)
+    {
+        var userOrganisation = await _context.UserOrganizations
+            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
+
+        if (userOrganisation != null)
+        {
+            userOrganisation.IsOwner = isOwner;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<bool> UpdateIsAdminAsync(int userId, int organisationId, bool isAdmin)
-        {
-            var userOrganisation = await _context.UserOrganizations
-                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
-
-            if (userOrganisation != null)
-            {
-                userOrganisation.IsAdmin = isAdmin;
-                await _context.SaveChangesAsync();
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> UpdateIsOwnerAsync(int userId, int organisationId, bool isOwner)
-        {
-            var userOrganisation = await _context.UserOrganizations
-                .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
-
-            if (userOrganisation != null)
-            {
-                userOrganisation.IsOwner = isOwner;
-                await _context.SaveChangesAsync();
-                return true;
-            }
-
-            return false;
-        }
+        return false;
     }
 }

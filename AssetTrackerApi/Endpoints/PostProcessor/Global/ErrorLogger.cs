@@ -1,19 +1,18 @@
 ﻿using FastEndpoints;
 using FluentValidation.Results;
 
-namespace AssetTrackerApi.Endpoints.PostProcessor.Global
-{
-    public class ErrorLogger : IGlobalPostProcessor
-    {
-        public Task PostProcessAsync(object req, object? res, HttpContext ctx, IReadOnlyCollection<ValidationFailure> failures, CancellationToken ct)
-        {
-            if (failures.Count > 0)
-            {
-                var logger = ctx.Resolve<ILogger<ErrorLogger>>();
-                logger.LogWarning("Validation error count: {@count}", failures.Count);
-            }
+namespace AssetTrackerApi.Endpoints.PostProcessor.Global;
 
-            return Task.CompletedTask;
+public class ErrorLogger : IGlobalPostProcessor
+{
+    public Task PostProcessAsync(object req, object? res, HttpContext ctx, IReadOnlyCollection<ValidationFailure> failures, CancellationToken ct)
+    {
+        if (failures.Count > 0)
+        {
+            var logger = ctx.Resolve<ILogger<ErrorLogger>>();
+            logger.LogWarning("Validation error count: {@count}", failures.Count);
         }
+
+        return Task.CompletedTask;
     }
 }

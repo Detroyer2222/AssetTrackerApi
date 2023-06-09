@@ -1,39 +1,38 @@
 ﻿using AssetTrackerApi.Endpoints.User.Login.Commands;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Login
+namespace AssetTrackerApi.Endpoints.User.Login;
+
+public class Endpoint : Endpoint<Request, Response>
 {
-    public class Endpoint : Endpoint<Request, Response, Mapper>
+    public override void Configure()
     {
-        public override void Configure()
-        {
-            Post("user/login");
-            AllowAnonymous();
-        }
+        Post("user/login");
+        AllowAnonymous();
+    }
 
-        public override async Task HandleAsync(Request r, CancellationToken c)
+    public override async Task HandleAsync(Request r, CancellationToken c)
+    {
+        //TODO: Continue here https://fast-endpoints.com/docs/security
+        bool authenticated = await new AuthenticatePassword()
         {
-            //TODO: Continue here https://fast-endpoints.com/docs/security
-            bool authenticated = await new AuthenticatePassword()
+            EmailorUserName = r.EmailorUserName,
+            Password = r.Password
+        }.ExecuteAsync(c);
+
+        string token = null;
+        if (authenticated)
+        {
+            token = await new GetToken()
             {
-                EmailorUserName = r.EmailorUserName,
-                Password = r.Password
+                EmailorUserName = r.EmailorUserName
             }.ExecuteAsync(c);
-
-            string token = null;
-            if (authenticated)
-            {
-                token = await new GetToken()
-                {
-                    EmailorUserName = r.EmailorUserName
-                }.ExecuteAsync(c);
-            }
-
-            await SendAsync(new()
-            {
-                EmailorUserName = r.EmailorUserName,
-                Token = token
-            });
         }
+
+        await SendAsync(new()
+        {
+            EmailorUserName = r.EmailorUserName,
+            Token = token
+        });
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Refresh;
+namespace AssetTrackerApi.Endpoints.Organization.Admin;
 
 public class Mapper : Mapper<Request, Response, object>
 {
