@@ -40,6 +40,7 @@ KeyVaultSecret connString = secretClient.GetSecret("AssetTrackerSQLConnectionStr
 
 // Configure Authentication
 // TODO: Add AuthTokenString to KeyVault
+// TODO: think about cookie auth when API is deployed and has SSL certificate
 builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
 
 builder.Services.AddAuthorization(o =>
