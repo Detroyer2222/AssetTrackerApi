@@ -37,7 +37,7 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
         return organization;
     }
 
-    public async Task AddUserToOrganizationAsync(int userId, int organizationId, bool isAdmin)
+    public async Task<UserOrganization> AddUserToOrganizationAsync(int userId, int organizationId, bool isAdmin, CancellationToken c)
     {
         // Create a linking record in the UserOrganization table
         var userOrganization = new UserOrganization
@@ -48,10 +48,12 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
             IsOwner = false
         };
 
-        await _context.UserOrganizations.AddAsync(userOrganization);
+        var result= await _context.UserOrganizations.AddAsync(userOrganization, c);
 
         // Save changes to the database
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(c);
+
+        return result.Entity;
     }
 
     public async Task<Organization> GetFirstOrganizationFromUserAsync(int userId)

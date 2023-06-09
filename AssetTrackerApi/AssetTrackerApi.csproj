@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Endpoints\Organization\AddUser\" />
     <Folder Include="Endpoints\Resources\" />
   </ItemGroup>
 
