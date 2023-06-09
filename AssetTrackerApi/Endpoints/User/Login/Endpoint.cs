@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.User.Login;
 
-//[EnableCors]
+[EnableCors]
 public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
