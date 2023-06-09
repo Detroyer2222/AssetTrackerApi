@@ -17,7 +17,7 @@ public class UpdateUserOrganisationAccessHandler : CommandHandler<UpdateOrganisa
     {
         var result =
             await _userOrganisationRepository.UpdateIsAdminAsync(command.UserId, command.OrganisationId,
-                command.IsAdmin);
+                command.IsAdmin, ct);
 
         return new Response { Success = result };
     }

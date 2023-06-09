@@ -2,6 +2,6 @@
 
 public interface IUserResourceRepository
 {
-    Task<double> GetTotalResourceValueOfUserAsync(int userId);
+    Task<double> GetTotalResourceValueOfUserAsync(int userId, CancellationToken ct);
 
 }

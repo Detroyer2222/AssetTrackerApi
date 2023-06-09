@@ -33,6 +33,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
         }.ExecuteAsync(c);
 
         ThrowIfAnyErrors();
+
         await SendAsync(new()
         {
             UserName = result.UserName,

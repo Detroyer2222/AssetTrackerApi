@@ -15,19 +15,19 @@ public class TokenUtility
         _organisationRepository = organisationRepository;
     }
 
-    public async Task<string> CreateToken(User user, Organization organisation = null)
+    public async Task<string> CreateToken(User user, Organization organisation = null, CancellationToken ct = default(CancellationToken))
     {
         if (organisation == null)
         {
-            organisation = await _organisationRepository.GetFirstOrganizationFromUserAsync(user.UserId);
+            organisation = await _organisationRepository.GetFirstOrganizationFromUserAsync(user.UserId, ct);
         }
 
         bool isAdmin = false;
         bool isOwner = false;
         if (organisation != null)
         {
-            isAdmin = await _userOrganisationRepository.IsUserAdminInOrganizationAsync(user.UserId, organisation.OrganizationId);
-            isOwner = await _userOrganisationRepository.IsUserOwnerInOrganizationAsync(user.UserId, organisation.OrganizationId);
+            isAdmin = await _userOrganisationRepository.IsUserAdminInOrganizationAsync(user.UserId, organisation.OrganizationId, ct);
+            isOwner = await _userOrganisationRepository.IsUserOwnerInOrganizationAsync(user.UserId, organisation.OrganizationId, ct);
         }
 
 

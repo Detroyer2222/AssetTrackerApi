@@ -17,14 +17,14 @@ public class GetTokenHandler : CommandHandler<GetToken, string>
         this.tokenUtility = tokenUtility;
     }
 
-    public override async Task<string> ExecuteAsync(GetToken command, CancellationToken cancellationToken)
+    public override async Task<string> ExecuteAsync(GetToken command, CancellationToken ct)
     {
-        var user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName);
+        var user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName, ct);
         EntityFramework.Models.Organization organisation = null;
 
         if (command.OrganisationId != null)
         {
-            organisation = await _organizationRepository.GetByIdAsync((int)command.OrganisationId);
+            organisation = await _organizationRepository.GetByIdAsync((int)command.OrganisationId, ct);
         }
 
         ThrowIfAnyErrors();

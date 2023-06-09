@@ -15,7 +15,7 @@ public class SignupUserHandler : CommandHandler<SignupUser, EntityFramework.Mode
 
     public override async Task<EntityFramework.Models.User> ExecuteAsync(SignupUser command, CancellationToken ct = new CancellationToken())
     {
-        bool userExists = await _userRepository.UserExistsAsync(command.UserToSignup.Email);
+        bool userExists = await _userRepository.UserExistsAsync(command.UserToSignup.Email, ct);
 
         if (userExists)
         {
@@ -27,7 +27,7 @@ public class SignupUserHandler : CommandHandler<SignupUser, EntityFramework.Mode
         command.UserToSignup.PasswordHash = passwordSaltPair.Key;
         command.UserToSignup.Salt = passwordSaltPair.Value;
 
-        var result = await _userRepository.AddAsync(command.UserToSignup);
+        var result = await _userRepository.AddAsync(command.UserToSignup, ct);
         if (result is null)
         {
             ThrowError("Sorry! Something went wrong while creating the user");
