@@ -8,10 +8,11 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
     public override void Configure()
     {
         Post("/api/organization/admin");
-        Description(b => b
-                   .WithGroupName("Organization")
-                   .WithDescription("Update the admin status of a user for an organization"));
-        Roles("Admin");
+        Summary(s =>
+        {
+            s.Summary = "Change organization access status of user";
+        });
+        Roles("Admin", "Owner");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

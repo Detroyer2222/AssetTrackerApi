@@ -27,6 +27,7 @@ builder.Services.SwaggerDocument(o =>
         s.Version = "v1";
 
     };
+    o.AutoTagPathSegmentIndex = 2;
 });
 
 // Cors
@@ -34,11 +35,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins().AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .WithExposedHeaders();
+        policy.WithOrigins().AllowAnyOrigin();
     });
 });
 
@@ -52,11 +49,10 @@ var telemetryOptions = new ApplicationInsightsServiceOptions { ConnectionString 
 KeyVaultSecret connString = secretClient.GetSecret("AssetTrackerSQLConnectionString");
 
 // Configure Authentication
-// TODO: Add AuthTokenString to KeyVault
-//builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
 
-builder.Services.AddCookieAuth(validFor: TimeSpan.FromMinutes(10));
 // TODO: think about cookie auth when API is deployed and has SSL certificate
+//builder.Services.AddCookieAuth(validFor: TimeSpan.FromMinutes(10));
+// TODO: Add AuthTokenString to KeyVault
 builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
 
 builder.Services.AddAuthorization(o =>

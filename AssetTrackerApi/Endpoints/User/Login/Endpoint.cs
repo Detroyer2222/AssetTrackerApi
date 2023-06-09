@@ -9,6 +9,10 @@ public class Endpoint : Endpoint<Request, Response>
     public override void Configure()
     {
         Post("/api/user/login");
+        Summary(s =>
+        {
+            s.Summary = "Endpoint to create new access token";
+        });
         AllowAnonymous();
     }
 
@@ -21,30 +25,32 @@ public class Endpoint : Endpoint<Request, Response>
             Password = r.Password
         }.ExecuteAsync(c);
 
-        //string token = null;
-        //if (authenticated)
-        //{
-        //    token = await new GetToken()
-        //    {
-        //        EmailorUserName = r.EmailorUserName
-        //    }.ExecuteAsync(c);
-        //}
 
-        await CookieAuth.SignInAsync(u =>
+        string token = null;
+        if (authenticated)
         {
-            u.Roles.Add("Admin");
-            u.Permissions.AddRange(new[] {"Create_Item", "Delete_Item"});
-            u.Claims.Add(new("UserId", "123"));
+            token = await new GetToken()
+            {
+                EmailorUserName = r.EmailorUserName
+            }.ExecuteAsync(c);
+        }
 
-            u["Email"] = "abcd@def.com";
-            u["Department"] = "IT";
-        });
+        // TODO: think about cookie auth when API is deployed and has SSL certificate
+        //await CookieAuth.SignInAsync(u =>
+        //{
+        //    u.Roles.Add("Admin");
+        //    u.Permissions.AddRange(new[] {"Create_Item", "Delete_Item"});
+        //    u.Claims.Add(new("UserId", "123"));
+
+        //    u["Email"] = "abcd@def.com";
+        //    u["Department"] = "IT";
+        //});
 
 
         await SendAsync(new()
         {
             EmailorUserName = r.EmailorUserName,
-            Token = ""
+            Token = token
         });
     }
 }

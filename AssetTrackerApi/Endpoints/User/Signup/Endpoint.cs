@@ -16,8 +16,10 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
     public override void Configure()
     {
         Post("/api/user/signup");
-        Description(b => b
-            .WithGroupName("User"));
+        Summary(s =>
+        {
+            s.Summary = "Endpoint to signup new users";
+        });
         AllowAnonymous();
     }
 
