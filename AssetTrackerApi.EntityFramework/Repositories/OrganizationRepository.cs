@@ -1,4 +1,5 @@
 ﻿using AssetTrackerApi.EntityFramework.Models;
+using AssetTrackerApi.EntityFramework.Models.Dto.Resource;
 using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -81,11 +82,17 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
             .SumAsync(u => u.Balance, ct);
     }
 
-    public async Task<IEnumerable<Resource>> GetOrganizationResourcesAsync(int organisationId, CancellationToken ct = default(CancellationToken))
+    public async Task<List<OrganizationResourceDto>> GetOrganisationResourcesSummaryAsync(int organisationId, CancellationToken ct = default(CancellationToken))
     {
         return await _context.UserResources
             .Where(ur => ur.User.UserOrganizations.Any(uo => uo.OrganizationId == organisationId))
-            .Select(ur => ur.Resource)
+            .GroupBy(ur => ur.Resource)
+            .Select(group => new OrganizationResourceDto
+            {
+                ResourceName = group.Key.Name,
+                TotalQuantity = group.Sum(ur => ur.Quantity),
+                TotalValue = group.Sum(ur => (decimal)ur.Resource.PriceSell * ur.Quantity)
+            })
             .ToListAsync(ct);
     }
 

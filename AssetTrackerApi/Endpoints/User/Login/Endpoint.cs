@@ -1,9 +1,11 @@
 ﻿using AssetTrackerApi.Endpoints.User.Login.Commands;
 using FastEndpoints;
 using FastEndpoints.Security;
+using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.User.Login;
 
+[EnableCors]
 public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
