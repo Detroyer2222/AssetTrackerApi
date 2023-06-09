@@ -10,18 +10,18 @@ public class ResourceRepository : AssetTrackerRepository<Resource>, IResourceRep
     {
     }
 
-    public async Task<Resource> GetResourceByName(string name)
+    public async Task<Resource> GetResourceByName(string name, CancellationToken ct = default(CancellationToken))
     {
         var result = await _context.Resources
-            .FirstOrDefaultAsync(r => r.Name == name);
+            .FirstOrDefaultAsync(r => r.Name == name, ct);
 
         return result;
     }
 
-    public async Task<Resource> GetResourceByCode(string code)
+    public async Task<Resource> GetResourceByCode(string code, CancellationToken ct = default(CancellationToken))
     {
         var result = await _context.Resources
-            .FirstOrDefaultAsync(r => r.Code == code);
+            .FirstOrDefaultAsync(r => r.Code == code, ct);
 
         return result;
     }

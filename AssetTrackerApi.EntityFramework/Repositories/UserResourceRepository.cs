@@ -10,10 +10,10 @@ public class UserResourceRepository : AssetTrackerRepository<UserResource>, IUse
     {
     }
 
-    public async Task<double> GetTotalResourceValueOfUserAsync(int userId)
+    public async Task<double> GetTotalResourceValueOfUserAsync(int userId, CancellationToken ct = default(CancellationToken))
     {
         return await _context.UserResources
             .Where(ur => ur.UserId == userId)
-            .SumAsync(ur => ur.Resource.PriceSell * ur.Quantity);
+            .SumAsync(ur => ur.Resource.PriceSell * ur.Quantity, ct);
     }
 }

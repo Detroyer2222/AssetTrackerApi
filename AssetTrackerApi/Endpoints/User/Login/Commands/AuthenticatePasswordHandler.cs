@@ -13,9 +13,9 @@ public class AuthenticatePasswordHandler : CommandHandler<AuthenticatePassword, 
         _userRepository = userRepository;
     }
 
-    public override async Task<bool> ExecuteAsync(AuthenticatePassword command, CancellationToken cancellationToken)
+    public override async Task<bool> ExecuteAsync(AuthenticatePassword command, CancellationToken ct)
     {
-        AssetTrackerApi.EntityFramework.Models.User? user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName);
+        AssetTrackerApi.EntityFramework.Models.User? user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName, ct);
 
         if (user == null)
         {

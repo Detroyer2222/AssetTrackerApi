@@ -2,10 +2,10 @@
 
 public interface IAssetTrackerRepository<T> where T : class
 {
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<T> GetByIdAsync(int id);
-    Task<T> AddAsync(T entity);
-    Task<T> UpdateAsync(T entity);
-    Task DeleteAsync(int id);
-    Task SaveChangesAsync();
+    Task<IEnumerable<T>> GetAllAsync(CancellationToken ct);
+    Task<T> GetByIdAsync(int id, CancellationToken ct);
+    Task<T> AddAsync(T entity, CancellationToken ct);
+    Task<T> UpdateAsync(T entity, CancellationToken ct);
+    Task DeleteAsync(int id, CancellationToken ct);
+    Task SaveChangesAsync(CancellationToken ct);
 }

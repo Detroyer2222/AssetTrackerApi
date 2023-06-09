@@ -14,39 +14,39 @@ public abstract class AssetTrackerRepository<T> : IAssetTrackerRepository<T> whe
         _dbSet = context.Set<T>();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken ct = default(CancellationToken))
     {
-        return await _dbSet.ToListAsync();
+        return await _dbSet.ToListAsync(ct);
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T> GetByIdAsync(int id, CancellationToken ct = default(CancellationToken))
     {
-        return await _dbSet.FindAsync(id);
+        return await _dbSet.FindAsync(id, ct);
     }
 
-    public virtual async Task<T> AddAsync(T entity)
+    public virtual async Task<T> AddAsync(T entity, CancellationToken ct = default(CancellationToken))
     {
-        await _dbSet.AddAsync(entity);
-        await SaveChangesAsync();
+        await _dbSet.AddAsync(entity, ct);
+        await SaveChangesAsync(ct);
         return entity;
     }
 
-    public async Task<T> UpdateAsync(T entity)
+    public async Task<T> UpdateAsync(T entity, CancellationToken ct = default(CancellationToken))
     {
         _context.Entry(entity).State = EntityState.Modified;
-        await SaveChangesAsync();
+        await SaveChangesAsync(ct);
         return entity;
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id, CancellationToken ct = default(CancellationToken))
     {
-        var entity = await GetByIdAsync(id);
+        var entity = await GetByIdAsync(id, ct);
         _dbSet.Remove(entity);
-        await SaveChangesAsync();
+        await SaveChangesAsync(ct);
     }
 
-    public async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(CancellationToken ct = default(CancellationToken))
     {
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
     }
 }

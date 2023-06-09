@@ -29,17 +29,33 @@ builder.Services.SwaggerDocument(o =>
     };
 });
 
+// Cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://localhost:44398/", "https://asset-tracker-ui.azurewebsites.net")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .WithExposedHeaders();
+    });
+});
+
 
 var keyVaultEndpoint = new Uri(builder.Configuration["KeyVault"]);
 var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
 
 KeyVaultSecret insightsSecret = secretClient.GetSecret("ApplicationInsightsConnectionString");
-var telemetryOptions = new ApplicationInsightsServiceOptions {ConnectionString = insightsSecret.Value};
+var telemetryOptions = new ApplicationInsightsServiceOptions { ConnectionString = insightsSecret.Value };
 
 KeyVaultSecret connString = secretClient.GetSecret("AssetTrackerSQLConnectionString");
 
 // Configure Authentication
 // TODO: Add AuthTokenString to KeyVault
+//builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
+
+builder.Services.AddCookieAuth(validFor: TimeSpan.FromMinutes(10));
 // TODO: think about cookie auth when API is deployed and has SSL certificate
 builder.Services.AddJWTBearerAuth("SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys");
 
@@ -49,6 +65,8 @@ builder.Services.AddAuthorization(o =>
     o.AddPolicy("Admin", p => p.RequireRole("Role", "Admin"));
     o.AddPolicy("User", p => p.RequireRole("Role", "User"));
 });
+
+
 
 
 // Registering services
@@ -66,6 +84,8 @@ builder.Services.AddScoped<IUserOrganisationRepository, UserOrganizationReposito
 builder.Services.AddScoped<TokenUtility, TokenUtility>();
 
 var app = builder.Build();
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

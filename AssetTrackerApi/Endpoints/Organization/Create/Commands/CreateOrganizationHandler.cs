@@ -14,7 +14,7 @@ namespace AssetTrackerApi.Endpoints.Organization.Create.Commands
 
         public override async Task<EntityFramework.Models.Organization> ExecuteAsync(CreateOrganization command, CancellationToken ct = new CancellationToken())
         {
-            var result = await _organizationRepository.CreateOrganizationWithOwnerAsync(command.OrganizationName, command.UserId);
+            var result = await _organizationRepository.CreateOrganizationWithOwnerAsync(command.OrganizationName, command.UserId, ct);
             if (result == null)
                 ThrowError(c => c.OrganizationName, "Could not create Organization");
 

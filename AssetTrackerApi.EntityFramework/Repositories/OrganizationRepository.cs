@@ -10,7 +10,7 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
     {
     }
 
-    public async Task<Organization> CreateOrganizationWithOwnerAsync(string organizationName, int ownerId)
+    public async Task<Organization> CreateOrganizationWithOwnerAsync(string organizationName, int ownerId, CancellationToken ct = default)
     {
         // Create the new organization
         var organization = new Organization
@@ -18,7 +18,7 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
             Name = organizationName
         };
 
-        await _context.Organizations.AddAsync(organization);
+        await _context.Organizations.AddAsync(organization, ct);
 
         // Create a linking record in the UserOrganization table
         var userOrganization = new UserOrganization
@@ -29,15 +29,15 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
             IsOwner = true
         };
 
-        await _context.UserOrganizations.AddAsync(userOrganization);
+        await _context.UserOrganizations.AddAsync(userOrganization, ct);
 
         // Save changes to the database
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(ct);
 
         return organization;
     }
 
-    public async Task<UserOrganization> AddUserToOrganizationAsync(int userId, int organizationId, bool isAdmin, CancellationToken c)
+    public async Task<UserOrganization> AddUserToOrganizationAsync(int userId, int organizationId, bool isAdmin, CancellationToken ct = default)
     {
         // Create a linking record in the UserOrganization table
         var userOrganization = new UserOrganization
@@ -48,51 +48,51 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
             IsOwner = false
         };
 
-        var result= await _context.UserOrganizations.AddAsync(userOrganization, c);
+        var result= await _context.UserOrganizations.AddAsync(userOrganization, ct);
 
         // Save changes to the database
-        await _context.SaveChangesAsync(c);
+        await _context.SaveChangesAsync(ct);
 
         return result.Entity;
     }
 
-    public async Task<Organization> GetFirstOrganizationFromUserAsync(int userId)
+    public async Task<Organization> GetFirstOrganizationFromUserAsync(int userId, CancellationToken ct = default(CancellationToken))
     {
         Organization? result = await _context.UserOrganizations
             .Where(uo => uo.UserId == userId)
             .Select(uo => uo.Organization)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(ct);
         return result;
     }
 
-    public async Task<List<Organization>> GetOrganizationsFromUserAsync(int userId)
+    public async Task<List<Organization>> GetOrganizationsFromUserAsync(int userId, CancellationToken ct = default(CancellationToken))
     {
         var result = await _context.UserOrganizations
             .Where(uo => uo.UserId == userId)
             .Select(uo => uo.Organization)
-            .ToListAsync();
+            .ToListAsync(ct);
 
         return result;
     }
-    public async Task<long> GetOrganizationBalanceAsync(int organisationId)
+    public async Task<long> GetOrganizationBalanceAsync(int organisationId, CancellationToken ct = default(CancellationToken))
     {
         return await _context.Users
             .Where(u => u.UserOrganizations.Any(uo => uo.OrganizationId == organisationId))
-            .SumAsync(u => u.Balance);
+            .SumAsync(u => u.Balance, ct);
     }
 
-    public async Task<IEnumerable<Resource>> GetOrganizationResourcesAsync(int organisationId)
+    public async Task<IEnumerable<Resource>> GetOrganizationResourcesAsync(int organisationId, CancellationToken ct = default(CancellationToken))
     {
         return await _context.UserResources
             .Where(ur => ur.User.UserOrganizations.Any(uo => uo.OrganizationId == organisationId))
             .Select(ur => ur.Resource)
-            .ToListAsync();
+            .ToListAsync(ct);
     }
 
-    public async Task<double> GetTotalResourceValueOfOrganizationAsync(int organisationId)
+    public async Task<double> GetTotalResourceValueOfOrganizationAsync(int organisationId, CancellationToken ct = default(CancellationToken))
     {
         return await _context.UserResources
             .Where(ur => ur.User.UserOrganizations.Any(uo => uo.OrganizationId == organisationId))
-            .SumAsync(ur => ur.Resource.PriceSell * ur.Quantity);
+            .SumAsync(ur => ur.Resource.PriceSell * ur.Quantity, ct);
     }
 }

@@ -8,46 +8,46 @@ public class UserOrganizationRepository : AssetTrackerRepository<UserOrganizatio
 {
     public UserOrganizationRepository(AssetTrackerContext context) : base(context) { }
 
-    public async Task<bool> IsUserAdminInOrganizationAsync(int userId, int organisationId)
+    public async Task<bool> IsUserAdminInOrganizationAsync(int userId, int organisationId, CancellationToken ct = default(CancellationToken))
     {
         var result = await _context.UserOrganizations
-            .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsAdmin);
+            .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsAdmin, ct);
 
         return result;
     }
 
-    public async Task<bool> IsUserOwnerInOrganizationAsync(int userId, int organisationId)
+    public async Task<bool> IsUserOwnerInOrganizationAsync(int userId, int organisationId, CancellationToken ct = default(CancellationToken))
     {
         var result = await _context.UserOrganizations
-            .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsOwner);
+            .AnyAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId && uo.IsOwner, ct);
 
         return result;
     }
 
-    public async Task<bool> UpdateIsAdminAsync(int userId, int organisationId, bool isAdmin)
+    public async Task<bool> UpdateIsAdminAsync(int userId, int organisationId, bool isAdmin, CancellationToken ct = default(CancellationToken))
     {
         var userOrganisation = await _context.UserOrganizations
-            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
+            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId, ct);
 
         if (userOrganisation != null)
         {
             userOrganisation.IsAdmin = isAdmin;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(ct);
             return true;
         }
 
         return false;
     }
 
-    public async Task<bool> UpdateIsOwnerAsync(int userId, int organisationId, bool isOwner)
+    public async Task<bool> UpdateIsOwnerAsync(int userId, int organisationId, bool isOwner, CancellationToken ct = default(CancellationToken))
     {
         var userOrganisation = await _context.UserOrganizations
-            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId);
+            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organisationId, ct);
 
         if (userOrganisation != null)
         {
             userOrganisation.IsOwner = isOwner;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(ct);
             return true;
         }
 
