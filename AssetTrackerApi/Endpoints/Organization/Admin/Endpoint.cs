@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace AssetTrackerApi.Endpoints.Organization.Admin;
 
+// TODO: Investigate if CORS is needed for secured endpoint
 [EnableCors]
 public class Endpoint : Endpoint<Request, Response, Mapper>
 {
@@ -14,7 +15,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
         {
             s.Summary = "Change organization access status of user";
         });
-        Roles("Admin", "Owner");
+        Policies("Admin", "Owner");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

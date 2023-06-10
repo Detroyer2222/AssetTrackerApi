@@ -10,7 +10,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
     public override void Configure()
     {
         Get("/api/organization/resources");
-        Roles("User");
+        Policies("User");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

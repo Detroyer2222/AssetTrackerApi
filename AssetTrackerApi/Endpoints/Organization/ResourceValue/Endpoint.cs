@@ -10,7 +10,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
     public override void Configure()
     {
         Post("/api/organization/resource-value");
-        Claims("User");
+        Policies("User");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

@@ -38,11 +38,16 @@ public abstract class AssetTrackerRepository<T> : IAssetTrackerRepository<T> whe
         return entity;
     }
 
-    public async Task DeleteAsync(int id, CancellationToken ct = default(CancellationToken))
+    public async Task<bool> DeleteAsync(int id, CancellationToken ct)
     {
         var entity = await GetByIdAsync(id, ct);
-        _dbSet.Remove(entity);
+        var result = _dbSet.Remove(entity);
         await SaveChangesAsync(ct);
+
+        if (result.State == EntityState.Deleted)
+            return true;
+
+        return false;
     }
 
     public async Task SaveChangesAsync(CancellationToken ct = default(CancellationToken))

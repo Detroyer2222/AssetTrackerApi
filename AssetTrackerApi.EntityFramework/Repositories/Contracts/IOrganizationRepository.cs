@@ -7,6 +7,8 @@ public interface IOrganizationRepository : IAssetTrackerRepository<Organization>
 {
     Task<Organization> CreateOrganizationWithOwnerAsync(string organisationName, int ownerId, CancellationToken ct);
     Task<UserOrganization> AddUserToOrganizationAsync(int userId, int organizationId, bool isAdmin, CancellationToken ct);
+    Task<bool> RemoveUserFromOrganizationAsync(int userId, int organizationId, CancellationToken ct);
+    Task<List<User>> GetUsersInOrganizationAsync(int organizationId, CancellationToken ct);
 
     Task<Organization> GetFirstOrganizationFromUserAsync(int userId, CancellationToken ct);
     Task<List<Organization>> GetOrganizationsFromUserAsync(int userId, CancellationToken ct);

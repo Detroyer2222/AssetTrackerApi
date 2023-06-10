@@ -57,6 +57,30 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
         return result.Entity;
     }
 
+    public async Task<bool> RemoveUserFromOrganizationAsync(int userId, int organizationId, CancellationToken ct)
+    {
+        var userOrganization = await _context.UserOrganizations
+            .FirstOrDefaultAsync(uo => uo.UserId == userId && uo.OrganizationId == organizationId, ct);
+
+        if (userOrganization != null)
+        {
+            _context.UserOrganizations.Remove(userOrganization);
+            await _context.SaveChangesAsync(ct);
+            return true;
+        }
+
+        return false;
+    }
+
+    public async Task<List<User>> GetUsersInOrganizationAsync(int organizationId, CancellationToken ct)
+    {
+        var result =  await _context.UserOrganizations
+            .Where(uo => uo.OrganizationId == organizationId)
+            .Select(uo => uo.User)
+            .ToListAsync(ct);
+        return result;
+    }
+
     public async Task<Organization> GetFirstOrganizationFromUserAsync(int userId, CancellationToken ct = default(CancellationToken))
     {
         Organization? result = await _context.UserOrganizations
