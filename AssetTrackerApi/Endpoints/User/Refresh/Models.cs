@@ -1,21 +1,17 @@
 ﻿using FastEndpoints;
+using FastEndpoints.Security;
 
 namespace AssetTrackerApi.Endpoints.User.Refresh;
 
-public class Request
+public class OrganizationTokenRequest : TokenRequest
 {
-
+    public int OrganizationId { get; set; }
 }
 
-public class Validator : Validator<Request>
+public class Validator : Validator<OrganizationTokenRequest>
 {
     public Validator()
     {
 
     }
-}
-
-public class Response
-{
-    public string Message => "This endpoint hasn't been implemented yet!";
 }

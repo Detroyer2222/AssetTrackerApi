@@ -27,6 +27,5 @@ public class Validator : Validator<Request>
 
 public class Response
 {
-    public string EmailorUserName { get; set; }
-    public string Token { get; set; }
+
 }

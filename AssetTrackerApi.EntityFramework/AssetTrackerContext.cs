@@ -10,6 +10,7 @@ public class AssetTrackerContext: DbContext
     public DbSet<Resource> Resources { get; set; }
     public DbSet<UserResource> UserResources { get; set; }
     public DbSet<UserOrganization> UserOrganizations { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
 
     public AssetTrackerContext(DbContextOptions<AssetTrackerContext> options)

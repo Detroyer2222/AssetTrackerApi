@@ -1,4 +1,5 @@
 ﻿using AssetTrackerApi.Endpoints.User.Login.Commands;
+using AssetTrackerApi.Endpoints.User.Refresh;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.Cors;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Cors;
 namespace AssetTrackerApi.Endpoints.User.Login;
 
 [EnableCors]
-public class Endpoint : Endpoint<Request, Response>
+public class Endpoint : Endpoint<Request, TokenResponse>
 {
     public override void Configure()
     {
@@ -21,26 +22,22 @@ public class Endpoint : Endpoint<Request, Response>
     public override async Task HandleAsync(Request r, CancellationToken c)
     {
         //TODO: Continue here https://fast-endpoints.com/docs/security
-        bool authenticated = await new AuthenticatePassword()
+        bool authenticated = await new AuthenticatePassword
         {
             EmailorUserName = r.EmailorUserName,
             Password = r.Password
         }.ExecuteAsync(c);
 
+        if (!authenticated)
+            ThrowError("Invalid username or password");
 
-        string token = null;
-        if (authenticated)
+        var result = await new GetUserPermissions
         {
-            token = await new GetToken()
-            {
-                EmailorUserName = r.EmailorUserName
-            }.ExecuteAsync(c);
-        }
+            EmailOrUserName = r.EmailorUserName,
+            OrganisationId = r.OrganisationId
 
-        await SendAsync(new()
-        {
-            EmailorUserName = r.EmailorUserName,
-            Token = token
-        });
+        }.ExecuteAsync(c);
+
+        Response = await CreateTokenWith<RefreshTokenService>(result.Key.ToString(), result.Value);
     }
 }
