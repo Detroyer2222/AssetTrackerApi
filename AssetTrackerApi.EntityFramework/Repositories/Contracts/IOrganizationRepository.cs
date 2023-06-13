@@ -14,7 +14,7 @@ public interface IOrganizationRepository : IAssetTrackerRepository<Organization>
     Task<List<Organization>> GetOrganizationsFromUserAsync(int userId, CancellationToken ct);
     Task<long> GetOrganizationBalanceAsync(int organisationId, CancellationToken ct);
 
-    Task<List<OrganizationResourceDto>> GetOrganisationResourcesSummaryAsync(int organisationId,
+    Task<List<ResourceDto>> GetOrganisationResourcesSummaryAsync(int organisationId,
         CancellationToken ct = default(CancellationToken));
     Task<double> GetTotalResourceValueOfOrganizationAsync(int organisationId, CancellationToken ct);
 }

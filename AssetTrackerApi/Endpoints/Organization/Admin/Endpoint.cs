@@ -6,7 +6,7 @@ namespace AssetTrackerApi.Endpoints.Organization.Admin;
 
 // TODO: Investigate if CORS is needed for secured endpoint
 [EnableCors]
-public class Endpoint : Endpoint<Request, Response, Mapper>
+public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {

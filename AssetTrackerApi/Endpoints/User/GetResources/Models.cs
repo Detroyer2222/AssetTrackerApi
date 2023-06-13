@@ -2,18 +2,18 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace AssetTrackerApi.Endpoints.Organization.ResourceSummary;
+namespace AssetTrackerApi.Endpoints.User.GetResources;
 
 public class Request
 {
-    public int OrganizationId { get; set; }
+    public int UserId { get; set; }
 }
 
 public class Validator : Validator<Request>
 {
     public Validator()
     {
-        RuleFor(x => x.OrganizationId).NotEmpty();
+        RuleFor(x => x.UserId).NotEmpty();
     }
 }
 

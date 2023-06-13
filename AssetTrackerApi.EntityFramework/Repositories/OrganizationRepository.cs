@@ -106,15 +106,17 @@ public class OrganizationRepository : AssetTrackerRepository<Organization>, IOrg
             .SumAsync(u => u.Balance, ct);
     }
 
-    public async Task<List<OrganizationResourceDto>> GetOrganisationResourcesSummaryAsync(int organisationId, CancellationToken ct = default(CancellationToken))
+    public async Task<List<ResourceDto>> GetOrganisationResourcesSummaryAsync(int organisationId, CancellationToken ct = default(CancellationToken))
     {
         return await _context.UserResources
             .Where(ur => ur.User.UserOrganizations.Any(uo => uo.OrganizationId == organisationId))
             .GroupBy(ur => ur.Resource)
-            .Select(group => new OrganizationResourceDto
+            .Select(group => new ResourceDto
             {
-                ResourceName = group.Key.Name,
-                TotalQuantity = group.Sum(ur => ur.Quantity),
+                Name = group.Key.Name,
+                ShortName = group.Key.Code,
+                Category = group.Key.Type,
+                Quantity = group.Sum(ur => ur.Quantity),
                 TotalValue = group.Sum(ur => (decimal)ur.Resource.PriceSell * ur.Quantity)
             })
             .ToListAsync(ct);

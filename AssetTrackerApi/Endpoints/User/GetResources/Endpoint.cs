@@ -1,23 +1,22 @@
-﻿using AssetTrackerApi.Endpoints.Organization.ResourceSummary.Commands;
+﻿using AssetTrackerApi.Endpoints.User.GetResources.Commands;
 using FastEndpoints;
-using Microsoft.AspNetCore.Cors;
 
-namespace AssetTrackerApi.Endpoints.Organization.ResourceSummary;
+namespace AssetTrackerApi.Endpoints.User.GetResources;
 
-[EnableCors]
 public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
-        Get("organization/resources");
+        
+        Get("user/resources");
         Policies("User");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)
     {
-        var result = await new GetOrganizationResources
+        var result = await new GetUserResources
         {
-            OrganizationId = r.OrganizationId
+            UserId = r.UserId
         }.ExecuteAsync(c);
 
         await SendAsync(new Response { Resources = result });

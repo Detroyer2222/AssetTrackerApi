@@ -12,6 +12,7 @@ public class Endpoint : Endpoint<Request, Response>
         {
             s.Summary = "Create new Organization";
         });
+        Policies("User");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

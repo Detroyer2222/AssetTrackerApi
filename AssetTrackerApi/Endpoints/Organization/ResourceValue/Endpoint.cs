@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Cors;
 namespace AssetTrackerApi.Endpoints.Organization.ResourceValue;
 
 [EnableCors]
-public class Endpoint : Endpoint<Request, Response, Mapper>
+public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {

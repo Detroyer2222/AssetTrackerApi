@@ -10,26 +10,28 @@ public class User : IdentityUser
 
     [Required]
     [MaxLength(100)]
-    public string UserName { get; set; }
+#pragma warning disable CS8765
+    public override string UserName { get; set; } = null!;
+
 
     [Required]
     [MaxLength(100)]
     [DataType(DataType.EmailAddress)]
-    public string Email { get; set; }
+    public override string Email { get; set; } = null!;
 
     [Required]
     [MaxLength(100)]
     [DataType(DataType.Password)]
-    public string PasswordHash { get; set; }
-
+    public override string PasswordHash { get; set; } = null!;
+#pragma warning restore CS8765
     [Required]
     [MaxLength(128)]
-    public string Salt { get; set; }
+    public string Salt { get; set; } = null!;
 
     public DateTime SignUpDate { get; set; }
     public DateTime LastLogin { get; set; }
 
     public long Balance { get; set; }
-    public ICollection<UserOrganization> UserOrganizations { get; set; }
-    public ICollection<UserResource> UserResources { get; set; }
+    public ICollection<UserOrganization> UserOrganizations { get; set; } = null!;
+    public ICollection<UserResource> UserResources { get; set; } = null!;
 }

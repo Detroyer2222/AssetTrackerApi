@@ -3,11 +3,12 @@ using FastEndpoints;
 
 namespace AssetTrackerApi.Endpoints.Organization.AddUser;
 
-public class Endpoint : Endpoint<Request, Response, Mapper>
+public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
         Post("organization/add-user");
+        Policies("Admin", "Owner");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

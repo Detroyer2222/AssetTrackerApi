@@ -3,7 +3,7 @@ using FastEndpoints;
 
 namespace AssetTrackerApi.Endpoints.Organization.ResourceSummary.Commands;
 
-public class GetOrganizationResources : ICommand<List<OrganizationResourceDto>>
+public class GetOrganizationResources : ICommand<List<ResourceDto>>
 {
     public int OrganizationId { get; set; }
 }

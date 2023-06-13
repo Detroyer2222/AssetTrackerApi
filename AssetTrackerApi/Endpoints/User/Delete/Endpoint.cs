@@ -9,6 +9,7 @@ namespace AssetTrackerApi.Endpoints.User.Delete
         public override void Configure()
         {
             Delete("user");
+            Policies("User");
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)
