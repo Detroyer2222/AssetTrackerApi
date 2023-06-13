@@ -1,7 +1,7 @@
 ﻿using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Refresh.Commands
+namespace AssetTrackerApi.Authentication.Refresh.Commands
 {
     public class SaveRefreshTokenHandler : CommandHandler<SaveRefreshToken, bool>
     {

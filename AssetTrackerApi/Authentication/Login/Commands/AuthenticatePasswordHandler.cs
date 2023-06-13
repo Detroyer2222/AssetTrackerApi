@@ -2,7 +2,7 @@
 using AssetTrackerApi.Tools;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Login.Commands;
+namespace AssetTrackerApi.Authentication.Login.Commands;
 
 public class AuthenticatePasswordHandler : CommandHandler<AuthenticatePassword, bool>
 {
@@ -15,7 +15,7 @@ public class AuthenticatePasswordHandler : CommandHandler<AuthenticatePassword, 
 
     public override async Task<bool> ExecuteAsync(AuthenticatePassword command, CancellationToken ct)
     {
-        AssetTrackerApi.EntityFramework.Models.User? user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName, ct);
+        EntityFramework.Models.User? user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName, ct);
 
         if (user == null)
         {

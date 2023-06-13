@@ -9,7 +9,7 @@ public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
-        Get("/route/path/here");
+        Get("user/organizations");
         Summary(s =>
         {
             s.Summary = "Endpoint to get all organizations of a user";

@@ -1,10 +1,10 @@
 ﻿using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Signup;
+namespace AssetTrackerApi.Authentication.Signup;
 
 public class Mapper : Mapper<Request, Response, object>
 {
-    public override AssetTrackerApi.EntityFramework.Models.User ToEntity(Request r) => new()
+    public override EntityFramework.Models.User ToEntity(Request r) => new()
     {
         Email = r.Email,
         UserName = r.UserName,

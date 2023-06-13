@@ -8,7 +8,7 @@ namespace AssetTrackerApi.Endpoints.User.Delete
     {
         public override void Configure()
         {
-            Post("/route/path/here");
+            Delete("user");
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)

@@ -2,7 +2,7 @@
 using AssetTrackerApi.Tools;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Signup.Commands;
+namespace AssetTrackerApi.Authentication.Signup.Commands;
 
 public class SignupUserHandler : CommandHandler<SignupUser, EntityFramework.Models.User>
 {

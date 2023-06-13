@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Signup.Commands;
+namespace AssetTrackerApi.Authentication.Signup.Commands;
 
 public class SignupUser : ICommand<EntityFramework.Models.User>
 {

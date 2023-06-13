@@ -1,11 +1,10 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using AssetTrackerApi.Endpoints.User.Login.Commands;
-using AssetTrackerApi.Endpoints.User.Refresh.Commands;
+﻿using AssetTrackerApi.Authentication.Login.Commands;
+using AssetTrackerApi.Authentication.Refresh.Commands;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.Cors;
 
-namespace AssetTrackerApi.Endpoints.User.Refresh;
+namespace AssetTrackerApi.Authentication.Refresh;
 
 [EnableCors]
 public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest, TokenResponse>
@@ -19,10 +18,11 @@ public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest,
             o.AccessTokenValidity = TimeSpan.FromMinutes(10);
             o.RefreshTokenValidity = TimeSpan.FromHours(10);
 
-            o.Endpoint("user/refresh-token", ep =>
+            o.Endpoint("authentication/refresh-token", ep =>
             {
                 ep.Summary(s => s.Summary = "Endpoint refreshes the access token and creates new refresh token");
             });
+            
         });
     }
 
@@ -37,7 +37,7 @@ public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest,
     {
         var result = await new SaveRefreshToken
         {
-            UserId = Int16.Parse(response.UserId),
+            UserId = short.Parse(response.UserId),
             RefreshToken = response.RefreshToken,
             RefreshExpiry = response.RefreshExpiry
         }.ExecuteAsync();
@@ -58,7 +58,7 @@ public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest,
         // True means validation is successful
         var result = await new ValidateRefreshToken
         {
-            UserId = Int16.Parse(req.UserId),
+            UserId = short.Parse(req.UserId),
             RefreshToken = req.RefreshToken
         }.ExecuteAsync();
 
@@ -79,7 +79,7 @@ public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest,
     {
         var result = await new GetUserPermissions
         {
-            UserId = Int16.Parse(request.UserId),
+            UserId = short.Parse(request.UserId),
             OrganisationId = request.OrganizationId
 
         }.ExecuteAsync();

@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using FluentValidation;
 
-namespace AssetTrackerApi.Endpoints.User.Signup;
+namespace AssetTrackerApi.Authentication.Signup;
 
 public class Request
 {
@@ -18,12 +18,12 @@ public class Validator : Validator<Request>
         // Rules for UserName
         RuleFor(x => x.UserName)
             .NotEmpty().WithMessage("User Name is required");
-            
+
         // Rules for Email
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required")
             .EmailAddress();
-            
+
         // Rules for Password
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required");

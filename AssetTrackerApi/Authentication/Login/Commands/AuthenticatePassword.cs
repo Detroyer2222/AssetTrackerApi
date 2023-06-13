@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Login.Commands;
+namespace AssetTrackerApi.Authentication.Login.Commands;
 
 public class AuthenticatePassword : ICommand<bool>
 {

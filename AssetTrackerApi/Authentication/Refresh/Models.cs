@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using FastEndpoints.Security;
 
-namespace AssetTrackerApi.Endpoints.User.Refresh;
+namespace AssetTrackerApi.Authentication.Refresh;
 
 public class OrganizationTokenRequest : TokenRequest
 {

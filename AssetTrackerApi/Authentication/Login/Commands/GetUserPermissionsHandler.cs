@@ -1,7 +1,7 @@
 ﻿using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Login.Commands;
+namespace AssetTrackerApi.Authentication.Login.Commands;
 
 public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyValuePair<int, Action<UserPrivileges>>>
 {
@@ -19,7 +19,7 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
     public override async Task<KeyValuePair<int, Action<UserPrivileges>>> ExecuteAsync(GetUserPermissions command, CancellationToken ct)
     {
         EntityFramework.Models.User? user;
-        if (String.IsNullOrEmpty(command.EmailOrUserName))
+        if (string.IsNullOrEmpty(command.EmailOrUserName))
         {
             user = await _userRepository.GetByIdAsync(command.UserId, ct);
         }
@@ -40,7 +40,7 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
 
         ThrowIfAnyErrors();
 
-        return new KeyValuePair<int, Action<UserPrivileges>> (user.UserId, userPrivileges =>
+        return new KeyValuePair<int, Action<UserPrivileges>>(user.UserId, userPrivileges =>
         {
             if (isAdmin)
             {

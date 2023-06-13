@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.Refresh.Commands
+namespace AssetTrackerApi.Authentication.Refresh.Commands
 {
     public class SaveRefreshToken : ICommand<bool>
     {

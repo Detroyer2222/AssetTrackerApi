@@ -1,17 +1,17 @@
-﻿using AssetTrackerApi.Endpoints.User.Login.Commands;
-using AssetTrackerApi.Endpoints.User.Refresh;
+﻿using AssetTrackerApi.Authentication.Login.Commands;
+using AssetTrackerApi.Authentication.Refresh;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.Cors;
 
-namespace AssetTrackerApi.Endpoints.User.Login;
+namespace AssetTrackerApi.Authentication.Login;
 
 [EnableCors]
 public class Endpoint : Endpoint<Request, TokenResponse>
 {
     public override void Configure()
     {
-        Post("user/login");
+        Post("authentication/login");
         Summary(s =>
         {
             s.Summary = "Endpoint to create new access token";

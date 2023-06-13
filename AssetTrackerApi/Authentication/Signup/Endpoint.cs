@@ -1,8 +1,8 @@
-﻿using AssetTrackerApi.Endpoints.User.Signup.Commands;
+﻿using AssetTrackerApi.Authentication.Signup.Commands;
 using FastEndpoints;
 using Microsoft.AspNetCore.Cors;
 
-namespace AssetTrackerApi.Endpoints.User.Signup;
+namespace AssetTrackerApi.Authentication.Signup;
 
 [EnableCors]
 public class Endpoint : Endpoint<Request, Response, Mapper>
@@ -10,7 +10,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
 
     public override void Configure()
     {
-        Post("/api/user/signup");
+        Post("authentication/signup");
         Summary(s =>
         {
             s.Summary = "Endpoint to signup new users";
