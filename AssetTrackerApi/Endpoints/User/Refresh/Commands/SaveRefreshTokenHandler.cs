@@ -14,14 +14,14 @@ namespace AssetTrackerApi.Endpoints.User.Refresh.Commands
 
         public override async Task<bool> ExecuteAsync(SaveRefreshToken command, CancellationToken ct = new CancellationToken())
         {
-            var refreshtoken = new EntityFramework.Models.RefreshToken()
+            var refreshToken = new EntityFramework.Models.RefreshToken()
             {
                 UserId = command.UserId,
                 Token = command.RefreshToken,
                 RefreshTokenExpiryDate = command.RefreshExpiry
             };
 
-            var result = await _refreshTokenRepository.SaveOrUpdate(refreshtoken, ct);
+            var result = await _refreshTokenRepository.SaveOrUpdate(refreshToken, ct);
             if (result == null)
             {
                 ThrowError(command => command.UserId, "Could not save Refresh Token");

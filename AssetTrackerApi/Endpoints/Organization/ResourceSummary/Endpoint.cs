@@ -9,7 +9,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
 {
     public override void Configure()
     {
-        Get("/api/organization/resources");
+        Get("organization/resources");
         Policies("User");
     }
 

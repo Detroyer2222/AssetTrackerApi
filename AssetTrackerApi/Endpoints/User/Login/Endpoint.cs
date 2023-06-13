@@ -11,7 +11,7 @@ public class Endpoint : Endpoint<Request, TokenResponse>
 {
     public override void Configure()
     {
-        Post("/api/user/login");
+        Post("user/login");
         Summary(s =>
         {
             s.Summary = "Endpoint to create new access token";

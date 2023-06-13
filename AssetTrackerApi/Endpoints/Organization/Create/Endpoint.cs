@@ -7,7 +7,7 @@ public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
-        Post("/api/organization/create");
+        Post("organization/create");
         Summary(s =>
         {
             s.Summary = "Create new Organization";

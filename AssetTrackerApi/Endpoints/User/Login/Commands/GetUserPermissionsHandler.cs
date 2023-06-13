@@ -18,12 +18,20 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
 
     public override async Task<KeyValuePair<int, Action<UserPrivileges>>> ExecuteAsync(GetUserPermissions command, CancellationToken ct)
     {
-        var user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailOrUserName, ct);
+        EntityFramework.Models.User? user;
+        if (String.IsNullOrEmpty(command.EmailOrUserName))
+        {
+            user = await _userRepository.GetByIdAsync(command.UserId, ct);
+        }
+        else
+        {
+            user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailOrUserName, ct);
+        }
         EntityFramework.Models.Organization organisation = null;
         bool isAdmin = false;
         bool isOwner = false;
 
-        if (command.OrganisationId != null)
+        if (command.OrganisationId is not (null or 0))
         {
             organisation = await _organizationRepository.GetByIdAsync((int)command.OrganisationId, ct);
             isAdmin = await _userOrganisationRepository.IsUserAdminInOrganizationAsync(user.UserId, (int)command.OrganisationId, ct);

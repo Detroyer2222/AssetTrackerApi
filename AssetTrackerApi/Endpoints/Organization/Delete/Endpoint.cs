@@ -7,7 +7,7 @@ public class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
-        Delete("/api/organization");
+        Delete("organization");
         Summary(s =>
         {
             s.Description = "Delete an organization";

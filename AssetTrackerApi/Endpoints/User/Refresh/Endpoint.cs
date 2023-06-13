@@ -19,7 +19,7 @@ public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest,
             o.AccessTokenValidity = TimeSpan.FromMinutes(10);
             o.RefreshTokenValidity = TimeSpan.FromHours(10);
 
-            o.Endpoint("/api/user/refresh-token", ep =>
+            o.Endpoint("user/refresh-token", ep =>
             {
                 ep.Summary(s => s.Summary = "Endpoint refreshes the access token and creates new refresh token");
             });

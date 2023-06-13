@@ -10,7 +10,7 @@ public class Endpoint : Endpoint<Request, Response, Mapper>
 {
     public override void Configure()
     {
-        Post("/api/organization/admin");
+        Post("organization/admin");
         Summary(s =>
         {
             s.Summary = "Change organization access status of user";

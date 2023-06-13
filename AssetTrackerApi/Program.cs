@@ -27,7 +27,6 @@ builder.Services.SwaggerDocument(o =>
         s.Version = "v1";
 
     };
-    o.AutoTagPathSegmentIndex = 2;
 });
 
 // Cors
@@ -76,9 +75,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IUserResourceRepository, UserResourceRepository>();
 builder.Services.AddScoped<IUserOrganisationRepository, UserOrganizationRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 // Registering Tools
-builder.Services.AddScoped<TokenUtility, TokenUtility>();
 
 var app = builder.Build();
 
@@ -101,6 +100,7 @@ app.UseFastEndpoints(c =>
     {
         ep.PostProcessors(Order.After, new ErrorLogger());
     };
+    c.Endpoints.RoutePrefix = "api";
 });
 
 app.UseSwaggerGen();
