@@ -23,9 +23,9 @@ builder.Services.SwaggerDocument(o =>
 {
     o.DocumentSettings = s =>
     {
+        s.DocumentName = "Initial Release";
         s.Title = "Asset Tracker Api";
-        s.Version = "v1";
-
+        s.Version = "v0";
     };
 });
 
@@ -101,6 +101,8 @@ app.UseFastEndpoints(c =>
         ep.PostProcessors(Order.After, new ErrorLogger());
     };
     c.Endpoints.RoutePrefix = "api";
+    c.Versioning.Prefix = "v";
+    c.Versioning.PrependToRoute = true;
 });
 
 app.UseSwaggerGen();
