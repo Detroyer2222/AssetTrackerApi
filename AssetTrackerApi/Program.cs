@@ -34,10 +34,10 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins()
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(options => true);
     });
 });
 
@@ -61,7 +61,6 @@ builder.Services.AddAuthorization(o =>
     o.AddPolicy("Admin", p => p.RequireRole("Role", "Admin"));
     o.AddPolicy("User", p => p.RequireRole("Role", "User"));
 });
-
 
 
 
@@ -91,6 +90,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Use and Configure FastEndpoints

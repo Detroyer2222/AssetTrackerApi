@@ -128,9 +128,9 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
         return result;
     }
 
-    public async Task<User?> GetUserByEmailorUserNameAsync(string emailOrUserName, CancellationToken ct = default(CancellationToken))
+    public async Task<User?> GetUserByEmailAsync(string email, CancellationToken ct = default(CancellationToken))
     {
-        User? result = await _context.Users.FirstOrDefaultAsync(u => u.Email == emailOrUserName || u.UserName == emailOrUserName, ct);
+        User? result = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         return result;
     }
 

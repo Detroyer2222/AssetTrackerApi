@@ -24,7 +24,7 @@ public class Endpoint : Endpoint<Request, TokenResponse>
         //TODO: Continue here https://fast-endpoints.com/docs/security
         bool authenticated = await new AuthenticatePassword
         {
-            EmailorUserName = r.EmailorUserName,
+            Email = r.Email,
             Password = r.Password
         }.ExecuteAsync(c);
 
@@ -33,11 +33,11 @@ public class Endpoint : Endpoint<Request, TokenResponse>
 
         var result = await new GetUserPermissions
         {
-            EmailOrUserName = r.EmailorUserName,
+            Email = r.Email,
             OrganisationId = r.OrganisationId
 
         }.ExecuteAsync(c);
-
+        
         Response = await CreateTokenWith<RefreshTokenService>(result.Key.ToString(), result.Value);
     }
 }

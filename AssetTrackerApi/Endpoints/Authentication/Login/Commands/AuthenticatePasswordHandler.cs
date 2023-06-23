@@ -15,11 +15,11 @@ public class AuthenticatePasswordHandler : CommandHandler<AuthenticatePassword, 
 
     public override async Task<bool> ExecuteAsync(AuthenticatePassword command, CancellationToken ct)
     {
-        EntityFramework.Models.User? user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailorUserName, ct);
+        EntityFramework.Models.User? user = await _userRepository.GetUserByEmailAsync(command.Email, ct);
 
         if (user == null)
         {
-            AddError(c => c.EmailorUserName, "User Name or Email not found");
+            AddError(c => c.Email, "User Name or Email not found");
         }
 
         ThrowIfAnyErrors();

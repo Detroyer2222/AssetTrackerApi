@@ -1,4 +1,5 @@
-﻿using AssetTrackerApi.EntityFramework.Repositories.Contracts;
+﻿using System.Security.Claims;
+using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using FastEndpoints;
 
 namespace AssetTrackerApi.Endpoints.Authentication.Login.Commands;
@@ -19,13 +20,13 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
     public override async Task<KeyValuePair<int, Action<UserPrivileges>>> ExecuteAsync(GetUserPermissions command, CancellationToken ct)
     {
         EntityFramework.Models.User? user;
-        if (string.IsNullOrEmpty(command.EmailOrUserName))
+        if (string.IsNullOrEmpty(command.Email))
         {
             user = await _userRepository.GetByIdAsync(command.UserId, ct);
         }
         else
         {
-            user = await _userRepository.GetUserByEmailorUserNameAsync(command.EmailOrUserName, ct);
+            user = await _userRepository.GetUserByEmailAsync(command.Email, ct);
         }
         EntityFramework.Models.Organization organisation = null;
         bool isAdmin = false;
@@ -51,8 +52,8 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
                 userPrivileges.Roles.Add("User");
             }
 
-            userPrivileges.Claims.Add(new("UserName", user.UserName));
-            userPrivileges.Claims.Add(new("UserId", user.UserId.ToString()));
+            userPrivileges.Claims.Add(new(ClaimTypes.Name, user.UserName));
+            userPrivileges.Claims.Add(new(ClaimTypes.Actor, user.UserId.ToString()));
             if (organisation != null)
             {
                 userPrivileges.Claims.Add(new("OrganizationId", organisation.OrganizationId.ToString()));
