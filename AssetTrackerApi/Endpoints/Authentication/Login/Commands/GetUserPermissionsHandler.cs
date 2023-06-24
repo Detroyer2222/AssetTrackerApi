@@ -53,10 +53,13 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
             }
 
             userPrivileges.Claims.Add(new(ClaimTypes.Name, user.UserName));
-            userPrivileges.Claims.Add(new(ClaimTypes.Actor, user.UserId.ToString()));
+            userPrivileges.Claims.Add(new(ClaimTypes.Email, user.Email));
+            userPrivileges.Claims.Add(new(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            
             if (organisation != null)
             {
                 userPrivileges.Claims.Add(new("OrganizationId", organisation.OrganizationId.ToString()));
+                userPrivileges.Claims.Add(new("OrganizationName", organisation.Name));
             }
         });
     }
