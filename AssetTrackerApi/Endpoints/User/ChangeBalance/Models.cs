@@ -2,7 +2,7 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace AssetTrackerApi.Endpoints.User.AddBalance;
+namespace AssetTrackerApi.Endpoints.User.ChangeBalance;
 
 public class Request
 {

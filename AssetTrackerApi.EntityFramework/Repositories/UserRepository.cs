@@ -58,7 +58,7 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
             return null;
         }
 
-        switch (opertaionType)
+        switch (operationType)
         {
             case OperationType.Add:
                 user.Balance += balance;
@@ -76,7 +76,7 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
         return user.Balance;
     }
 
-    public async Task<bool> AddResourcesToUser(int userId, IEnumerable<ResourceToAddDto> resources, CancellationToken ct = default(CancellationToken))
+    public async Task<bool> ChangeResourcesOfUser(int userId, IEnumerable<ResourceToChangeDto> resources, CancellationToken ct = default(CancellationToken))
     {
         // Retrieve the user from the database
         var user = await _context.Users.FindAsync(userId, ct);
@@ -88,22 +88,33 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
         }
 
         // Loop through each resource to add
-        foreach (var resourceToAdd in resources)
+        foreach (var resourceToChange in resources)
         {
             // Retrieve the resource from the database
-            var resource = await _context.Resources.FindAsync(resourceToAdd.ResourceId, ct);
+            var resource = await _context.Resources.FindAsync(resourceToChange.ResourceId, ct);
 
             // Check if the resource exists
             if (resource != null)
             {
                 // Check if the user already has this resource
                 var userResource = await _context.UserResources
-                    .FirstOrDefaultAsync(ur => ur.UserId == userId && ur.ResourceId == resourceToAdd.ResourceId, ct);
+                    .FirstOrDefaultAsync(ur => ur.UserId == userId && ur.ResourceId == resourceToChange.ResourceId, ct);
 
                 if (userResource != null)
                 {
                     // Update the quantity of the existing resource
-                    userResource.Quantity += resourceToAdd.Quantity;
+                    switch (resourceToChange.OperationType)
+                    {
+                        case OperationType.Add:
+                            userResource.Quantity += resourceToChange.Quantity;
+                            break;
+                        case OperationType.Remove:
+                            userResource.Quantity -= resourceToChange.Quantity;
+                            break;
+                        case OperationType.Update:
+                            userResource.Quantity = resourceToChange.Quantity;
+                            break;
+                    }
                 }
                 else
                 {
@@ -111,8 +122,8 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
                     var newUserResource = new UserResource
                     {
                         UserId = userId,
-                        ResourceId = resourceToAdd.ResourceId,
-                        Quantity = resourceToAdd.Quantity
+                        ResourceId = resourceToChange.ResourceId,
+                        Quantity = resourceToChange.Quantity
                     };
 
                     // Add the UserResource relationship to the database

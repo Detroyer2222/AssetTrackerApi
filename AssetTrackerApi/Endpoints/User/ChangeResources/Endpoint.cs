@@ -1,7 +1,7 @@
-﻿using AssetTrackerApi.Endpoints.User.AddResources.Commands;
+﻿using AssetTrackerApi.Endpoints.User.ChangeResources.Commands;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.AddResources;
+namespace AssetTrackerApi.Endpoints.User.ChangeResources;
 
 public class Endpoint : Endpoint<Request, Response>
 {
@@ -13,7 +13,7 @@ public class Endpoint : Endpoint<Request, Response>
 
     public override async Task HandleAsync(Request r, CancellationToken c)
     {
-        var result = await new AddUserResources
+        var result = await new ChangeUserResources
         {
             UserId = r.UserId,
             ResourcesToAdd = r.ResourcesToAdd

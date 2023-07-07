@@ -2,12 +2,12 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace AssetTrackerApi.Endpoints.User.AddResources;
+namespace AssetTrackerApi.Endpoints.User.ChangeResources;
 
 public class Request
 {
     public int UserId { get; set; }
-    public IEnumerable<ResourceToAddDto> ResourcesToAdd { get; set; }
+    public IEnumerable<ResourceToChangeDto> ResourcesToChange { get; set; }
 }
 
 public class Validator : Validator<Request>
@@ -15,7 +15,7 @@ public class Validator : Validator<Request>
     public Validator()
     {
         RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.ResourcesToAdd).NotEmpty();
+        RuleFor(x => x.ResourcesToChange).NotEmpty();
     }
 }
 

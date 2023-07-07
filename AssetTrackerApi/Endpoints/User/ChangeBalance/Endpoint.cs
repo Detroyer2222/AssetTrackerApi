@@ -1,7 +1,8 @@
-﻿using AssetTrackerApi.Endpoints.User.AddBalance.Commands;
+﻿using AssetTrackerApi.Endpoints.User.AddBalance;
+using AssetTrackerApi.Endpoints.User.ChangeBalance.Commands;
 using FastEndpoints;
 
-namespace AssetTrackerApi.Endpoints.User.AddBalance;
+namespace AssetTrackerApi.Endpoints.User.ChangeBalance;
 
 public class Endpoint : Endpoint<Request, Response>
 {

@@ -11,6 +11,6 @@ public interface IUserRepository : IAssetTrackerRepository<User>
     Task<long> GetBalance(int userId, CancellationToken ct);
     Task<List<ResourceDto>> GetResourcesAsync(int userId, CancellationToken ct);
     Task<long?> ChangeBalance(int userId, long balance, OperationType operationType, CancellationToken ct);
-    Task<bool> AddResourcesToUser(int userId, IEnumerable<ResourceToAddDto> resources, CancellationToken ct);
+    Task<bool> ChangeResourcesOfUser(int userId, IEnumerable<ResourceToChangeDto> resources, CancellationToken ct);
 
 }
