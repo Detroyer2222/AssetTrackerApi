@@ -21,7 +21,6 @@ public class Endpoint : Endpoint<Request, TokenResponse>
 
     public override async Task HandleAsync(Request r, CancellationToken c)
     {
-        //TODO: Continue here https://fast-endpoints.com/docs/security
         bool authenticated = await new AuthenticatePassword
         {
             Email = r.Email,

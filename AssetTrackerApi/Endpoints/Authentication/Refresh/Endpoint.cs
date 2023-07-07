@@ -15,8 +15,8 @@ public class RefreshTokenService : RefreshTokenService<OrganizationTokenRequest,
         Setup(o =>
         {
             o.TokenSigningKey = "SuperLongAndSecureJWTTokenStringThatWillBeReplacedInTheFutureFuckSecurityAndItsAbsurdNeedsOfLoongKeys"; // TODO: Save longer key in KeyVault
-            o.AccessTokenValidity = TimeSpan.FromMinutes(10);
-            o.RefreshTokenValidity = TimeSpan.FromHours(10);
+            o.AccessTokenValidity = TimeSpan.FromMinutes(15);
+            o.RefreshTokenValidity = TimeSpan.FromDays(7);
 
             o.Endpoint("authentication/refresh-token", ep =>
             {

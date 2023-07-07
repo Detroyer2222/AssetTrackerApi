@@ -3,18 +3,18 @@ using FastEndpoints;
 
 namespace AssetTrackerApi.Endpoints.User.AddBalance.Commands
 {
-    public class AddUserBalanceHandler : CommandHandler<AddUserBalance, long>
+    public class ChangeUserBalanceHandler : CommandHandler<ChangeUserBalance, long>
     {
         private readonly IUserRepository _userRepository;
 
-        public AddUserBalanceHandler(IUserRepository userRepository)
+        public ChangeUserBalanceHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public override async Task<long> ExecuteAsync(AddUserBalance command, CancellationToken ct = new CancellationToken())
+        public override async Task<long> ExecuteAsync(ChangeUserBalance command, CancellationToken ct = new CancellationToken())
         {
-            var result = await _userRepository.AddBalance(command.UserId, command.Balance, command.IsAdded, ct);
+            var result = await _userRepository.ChangeBalance(command.UserId, command.Balance, command.OperationType, ct);
 
             if (result == null)
             {

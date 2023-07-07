@@ -49,18 +49,20 @@ public class GetUserPermissionsHandler : CommandHandler<GetUserPermissions, KeyV
             }
             else if (isOwner)
             {
-                userPrivileges.Roles.Add("User");
+                userPrivileges.Roles.Add("Owner");
             }
 
             userPrivileges.Claims.Add(new(ClaimTypes.Name, user.UserName));
             userPrivileges.Claims.Add(new(ClaimTypes.Email, user.Email));
             userPrivileges.Claims.Add(new(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            userPrivileges.Roles.Add("User");
             
             if (organisation != null)
             {
                 userPrivileges.Claims.Add(new("OrganizationId", organisation.OrganizationId.ToString()));
                 userPrivileges.Claims.Add(new("OrganizationName", organisation.Name));
             }
+            userPrivileges.Roles.Add("Admin");
         });
     }
 }

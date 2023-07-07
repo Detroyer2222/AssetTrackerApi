@@ -10,17 +10,17 @@ public class Endpoint : Endpoint<Request, Response>
         Post("user/balance");
         Summary(s =>
         {
-            s.Summary = "Add or substracts the balance of a user";
+            s.Summary = "Change the balance of a user";
         });
         Policies("User");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)
     {
-        var result = await new AddUserBalance
+        var result = await new ChangeUserBalance
         {
             Balance = r.Balance,
-            IsAdded = r.IsAdded,
+            OperationType = r.OperationType,
             UserId = r.UserId
         }.ExecuteAsync(c);
 
