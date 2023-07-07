@@ -1,4 +1,5 @@
-﻿using FastEndpoints;
+﻿using AssetTrackerApi.EntityFramework.Models.Dto.Balance;
+using FastEndpoints;
 using FluentValidation;
 
 namespace AssetTrackerApi.Endpoints.User.AddBalance;
@@ -7,7 +8,7 @@ public class Request
 {
     public int UserId { get; set; }
     public long Balance { get; set; }
-    public bool IsAdded { get; set; }
+    public OperationType OperationType { get; set; }
 }
 
 public class Validator : Validator<Request>
@@ -16,7 +17,7 @@ public class Validator : Validator<Request>
     {
         RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.Balance).NotEmpty();
-        RuleFor(x => x.IsAdded).NotEmpty();
+        RuleFor(x => x.OperationType).NotEmpty();
     }
 }
 

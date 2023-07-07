@@ -1,4 +1,5 @@
 ﻿using AssetTrackerApi.EntityFramework.Models;
+using AssetTrackerApi.EntityFramework.Models.Dto.Balance;
 using AssetTrackerApi.EntityFramework.Models.Dto.Resource;
 using AssetTrackerApi.EntityFramework.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,7 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
         return resources;
     }
 
-    public async Task<long?> AddBalance(int userId, long balance, bool isAdded, CancellationToken ct = default(CancellationToken))
+    public async Task<long?> ChangeBalance(int userId, long balance, OperationType operationType, CancellationToken ct = default(CancellationToken))
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId, ct);
 
@@ -57,13 +58,17 @@ public class UserRepository : AssetTrackerRepository<User>, IUserRepository
             return null;
         }
 
-        if (isAdded)
+        switch (opertaionType)
         {
-            user.Balance += balance;
-        }
-        else
-        {
-            user.Balance -= balance;
+            case OperationType.Add:
+                user.Balance += balance;
+                break;
+            case OperationType.Remove:
+                user.Balance -= balance;
+                break;
+            case OperationType.Update:
+                user.Balance = balance;
+                break;
         }
 
         await _context.SaveChangesAsync(ct);

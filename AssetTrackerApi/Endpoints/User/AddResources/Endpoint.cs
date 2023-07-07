@@ -8,7 +8,7 @@ public class Endpoint : Endpoint<Request, Response>
     public override void Configure()
     {
         Post("user/resources");
-        Post("User");
+        Policies("User");
     }
 
     public override async Task HandleAsync(Request r, CancellationToken c)

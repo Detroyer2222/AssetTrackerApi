@@ -17,10 +17,10 @@ public class Endpoint : Endpoint<Request, Response>
 
     public override async Task HandleAsync(Request r, CancellationToken c)
     {
-        var result = await new AddUserBalance
+        var result = await new ChangeUserBalance
         {
             Balance = r.Balance,
-            IsAdded = r.IsAdded,
+            OperationType = r.OperationType,
             UserId = r.UserId
         }.ExecuteAsync(c);
 
